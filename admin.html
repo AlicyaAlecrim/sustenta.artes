@@ -1,0 +1,2406 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administração - Sustenta.Artes</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Metal+Mania&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: var(--color-light);
+            min-height: 100vh;
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: 10% auto;
+            background: var(--color-white);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .login-title {
+            font-family: var(--font-display);
+            color: var(--color-primary);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--color-dark);
+        }
+
+        .form-group input {
+            padding: 0.75rem;
+            border: 2px solid var(--color-light-gray);
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+
+        .login-btn {
+            padding: 0.75rem;
+            background: linear-gradient(45deg, var(--color-primary), #2E8B2E);
+            color: var(--color-white);
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+
+        .login-btn:hover {
+            background: linear-gradient(45deg, #2E8B2E, var(--color-primary));
+            transform: translateY(-2px);
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: var(--color-white);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .admin-title {
+            font-family: var(--font-display);
+            color: var(--color-primary);
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        .logout-btn {
+            background: var(--color-accent);
+            color: var(--color-white);
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .logout-btn:hover {
+            background: #B8541A;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--color-primary);
+            color: var(--color-white);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .action-btn:hover {
+            background: #2E8B2E;
+            transform: translateY(-2px);
+        }
+
+        .action-btn.add {
+            background: var(--color-turquoise);
+        }
+
+        .action-btn.add:hover {
+            background: #20B2AA;
+        }
+
+        .action-btn.featured {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            color: #333;
+        }
+
+        .action-btn.featured:hover {
+            background: linear-gradient(45deg, #FFA500, #FFD700);
+            transform: translateY(-2px);
+        }
+
+        .products-table {
+            background: var(--color-white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .table-header {
+            background: var(--color-primary);
+            color: var(--color-white);
+            padding: 1rem;
+            display: grid;
+            grid-template-columns: 120px 1fr 120px 120px 150px;
+            gap: 1rem;
+            font-weight: 600;
+        }
+
+        .product-row {
+            display: grid;
+            grid-template-columns: 120px 1fr 120px 120px 150px;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid var(--color-light-gray);
+            align-items: center;
+        }
+
+        .product-row:hover {
+            background-color: var(--color-light);
+        }
+
+        /* Carrossel na tabela de produtos */
+        .product-thumbnail {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            background: var(--color-light-gray);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .thumbnail-carousel {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .thumbnail-images {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .thumbnail-images img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .thumbnail-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: none;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 10;
+            border-radius: 50%;
+        }
+
+        .thumbnail-nav:hover {
+            background: rgba(0,0,0,0.9);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .product-thumbnail:hover .thumbnail-nav {
+            opacity: 1;
+        }
+
+        .thumbnail-nav.prev {
+            left: 5px;
+        }
+
+        .thumbnail-nav.next {
+            right: 5px;
+        }
+
+        .thumbnail-counter {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        .thumbnail-single {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .thumbnail-single img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: var(--color-dark);
+        }
+
+        .product-category {
+            color: var(--color-primary);
+            font-size: 0.9rem;
+        }
+
+        .product-description {
+            color: var(--color-gray);
+            font-size: 0.85rem;
+            line-height: 1.3;
+        }
+
+        .product-price {
+            font-weight: 700;
+            color: var(--color-accent);
+            font-size: 1.1rem;
+        }
+
+        .product-type {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .product-type.autorais {
+            background: rgba(36, 111, 36, 0.1);
+            color: var(--color-primary);
+        }
+
+        .product-type.revenda {
+            background: rgba(64, 224, 208, 0.1);
+            color: var(--color-turquoise);
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-edit, .btn-delete {
+            padding: 0.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .btn-edit {
+            background: var(--color-turquoise);
+            color: var(--color-white);
+        }
+
+        .btn-edit:hover {
+            background: #20B2AA;
+        }
+
+        .btn-delete {
+            background: var(--color-accent);
+            color: var(--color-white);
+        }
+
+        .btn-delete:hover {
+            background: #B8541A;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 10000;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--color-white);
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-family: var(--font-display);
+            color: var(--color-primary);
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--color-gray);
+        }
+
+        .modal-close:hover {
+            color: var(--color-accent);
+        }
+
+        .product-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group textarea {
+            padding: 0.75rem;
+            border: 2px solid var(--color-light-gray);
+            border-radius: 5px;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 80px;
+            font-family: var(--font-body);
+        }
+
+        .form-group select {
+            padding: 0.75rem;
+            border: 2px solid var(--color-light-gray);
+            border-radius: 5px;
+            font-size: 1rem;
+            background: var(--color-white);
+            cursor: pointer;
+        }
+
+        /* Seção de múltiplas imagens */
+        .images-section {
+            border: 2px solid var(--color-light-gray);
+            border-radius: 8px;
+            padding: 1rem;
+            background: #fafafa;
+        }
+
+        .images-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .images-title {
+            font-weight: 600;
+            color: var(--color-dark);
+        }
+
+        .add-image-btn {
+            background: var(--color-turquoise);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .add-image-btn:hover {
+            background: #20B2AA;
+        }
+
+        .images-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .image-item {
+            position: relative;
+            background: white;
+            border: 2px dashed var(--color-light-gray);
+            border-radius: 8px;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .image-item:hover {
+            border-color: var(--color-primary);
+            background: rgba(36, 111, 36, 0.05);
+        }
+
+        .image-item.has-image {
+            border-style: solid;
+            border-color: var(--color-primary);
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-item input[type="file"] {
+            display: none;
+        }
+
+        .image-remove {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(231, 76, 60, 0.9);
+            color: white;
+            border: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-remove:hover {
+            background: #e74c3c;
+        }
+
+        .image-order {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            background: rgba(36, 111, 36, 0.9);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 11px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-placeholder {
+            text-align: center;
+            color: var(--color-gray);
+            font-size: 0.8rem;
+        }
+
+        .drag-over {
+            border-color: var(--color-primary) !important;
+            background: rgba(36, 111, 36, 0.1) !important;
+        }
+
+        .save-btn {
+            padding: 0.75rem;
+            background: linear-gradient(45deg, var(--color-primary), #2E8B2E);
+            color: var(--color-white);
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+
+        .save-btn:hover {
+            background: linear-gradient(45deg, #2E8B2E, var(--color-primary));
+            transform: translateY(-2px);
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .alert.success {
+            background: rgba(39, 174, 96, 0.1);
+            color: #27ae60;
+            border: 1px solid #27ae60;
+        }
+
+        .alert.error {
+            background: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+            border: 1px solid #e74c3c;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--color-white);
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        .stat-label {
+            color: var(--color-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Estilos para o modal de produtos em destaque */
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .featured-slot {
+            border: 2px solid var(--color-light-gray);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .featured-slot.empty {
+            border-style: dashed;
+            cursor: pointer;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .featured-slot.empty:hover {
+            border-color: var(--color-primary);
+            background: rgba(36, 111, 36, 0.05);
+        }
+
+        .slot-image {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            background: var(--color-light-gray);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .slot-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slot-info {
+            flex: 1;
+        }
+
+        .slot-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .slot-price {
+            color: var(--color-accent);
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .btn-small {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.8rem;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            margin: 0 0.25rem;
+        }
+
+        .btn-remove {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .product-selector {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid var(--color-light-gray);
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+
+        .product-option {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--color-light-gray);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .product-option:hover {
+            background: var(--color-light);
+        }
+
+        .product-option.selected {
+            background: rgba(36, 111, 36, 0.1);
+            border-left: 4px solid var(--color-primary);
+        }
+
+        .product-thumb {
+            width: 50px;
+            height: 50px;
+            background: var(--color-light-gray);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            overflow: hidden;
+        }
+
+        .product-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .admin-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .admin-actions {
+                justify-content: center;
+            }
+
+            .table-header,
+            .product-row {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+
+            .product-row {
+                padding: 1rem;
+                border-bottom: 2px solid var(--color-light-gray);
+            }
+
+            .product-thumbnail {
+                width: 80px;
+                height: 80px;
+                margin: 0 auto;
+            }
+
+            .product-actions {
+                justify-content: center;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+
+            .featured-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .images-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+
+            .modal-content {
+                max-width: 95%;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+<!-- Configuração -->
+<script src="firebase-config.js"></script>
+<script src="firebase-simple.js"></script>
+<body>
+    <!-- Tela de Login -->
+    <div id="login-screen">
+        <div class="login-container">
+            <h1 class="login-title">Administração<br>Sustenta.Artes</h1>
+            <form class="login-form" id="login-form">
+                <div class="form-group">
+                    <label for="username">Usuário:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="login-btn">Entrar</button>
+            </form>
+            <div id="login-error" class="alert error" style="display: none;"></div>
+        </div>
+    </div>
+
+    <!-- Painel Administrativo -->
+    <div id="admin-panel" style="display: none;">
+        <div class="admin-container">
+            <div class="admin-header">
+                <h1 class="admin-title">Painel Administrativo</h1>
+                <button class="logout-btn" onclick="logout()">Sair</button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="total-products">0</div>
+                    <div class="stat-label">Total de Produtos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="autorais-count">0</div>
+                    <div class="stat-label">Artes Autorais</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="revenda-count">0</div>
+                    <div class="stat-label">Produtos de Revenda</div>
+                </div>
+            </div>
+
+            <div class="admin-actions">
+                <button class="action-btn" onclick="migrateToFirebase()" style="background: #9b59b6;">🚀 Migrar para Firebase</button>
+                <button class="action-btn add" onclick="openAddProductModal()">
+                    ➕ Adicionar Produto
+                </button>
+                <button class="action-btn featured" onclick="openFeaturedModal()">
+                    🌟 Gerenciar Destaque
+                </button>
+                <button class="action-btn" onclick="exportProducts()">
+                    💾 Exportar Dados
+                </button>
+                <button class="action-btn" onclick="refreshProducts()">
+                    🔄 Atualizar Lista
+                </button>
+            </div>
+
+            <div class="products-table">
+                <div class="table-header">
+                    <div>Imagens</div>
+                    <div>Produto</div>
+                    <div>Preço</div>
+                    <div>Tipo</div>
+                    <div>Ações</div>
+                </div>
+                <div id="products-list">
+                    <!-- Produtos serão carregados aqui -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Produto -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modal-title">Adicionar Produto</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <form class="product-form" id="product-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="product-name">Nome do Produto *</label>
+                        <input type="text" id="product-name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-price">Preço *</label>
+                        <input type="text" id="product-price" name="price" placeholder="R$ 00,00" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="product-category">Categoria *</label>
+                        <select id="product-category" name="category" required>
+                            <option value="">Selecione a categoria</option>
+                            <option value="cinzeiros">Cinzeiros e Porta-objetos</option>
+                            <option value="acessorios">Acessórios</option>
+                            <option value="quadros">Quadros e Artes em Resina</option>
+                            <option value="customizacao">Customização de Roupas</option>
+                            <option value="bolsas">Bolsas Customizadas</option>
+                            <option value="camisetas">Camisetas</option>
+                            <option value="outro">Outro</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-type">Tipo *</label>
+                        <select id="product-type" name="type" required>
+                            <option value="">Selecione o tipo</option>
+                            <option value="autorais">Arte Autoral</option>
+                            <option value="revenda">Produto de Revenda</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="product-description">Descrição *</label>
+                    <textarea id="product-description" name="description" rows="4" placeholder="Descreva o produto..." required></textarea>
+                </div>
+                
+                <!-- Seção de Múltiplas Imagens -->
+                <div class="form-group">
+                    <div class="images-section">
+                        <div class="images-header">
+                            <div class="images-title">📸 Imagens do Produto (máx. 15)</div>
+                            <button type="button" class="add-image-btn" onclick="addImageSlot()">+ Adicionar Imagem</button>
+                        </div>
+                        <div class="images-grid" id="images-grid">
+                            <!-- Slots de imagens serão adicionados aqui -->
+                        </div>
+                        <p style="font-size: 0.85rem; color: #666; margin: 0;">
+                            💡 A primeira imagem será a principal. Máximo 15 imagens. Arraste e solte ou clique para selecionar.
+                        </p>
+                    </div>
+                </div>
+                
+                <button type="submit" class="save-btn">Salvar Produto</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Produtos em Destaque -->
+    <div id="featured-modal" class="modal">
+        <div class="modal-content" style="max-width: 900px;">
+            <div class="modal-header">
+                <h2 class="modal-title">🌟 Gerenciar Produtos em Destaque</h2>
+                <button class="modal-close" onclick="closeFeaturedModal()">&times;</button>
+            </div>
+            
+            <p style="text-align: center; color: #666; margin-bottom: 2rem;">
+                Configure os 6 produtos que aparecerão na seção "Produtos em Destaque" da página inicial
+            </p>
+            
+            <div class="featured-grid" id="featured-grid">
+                <!-- Slots de produtos em destaque -->
+            </div>
+            
+            <div style="text-align: center; border-top: 1px solid #ddd; padding-top: 1rem;">
+                <button class="action-btn" onclick="exportFeatured()">💾 Exportar</button>
+                <button class="action-btn" onclick="generateFeaturedHTML()">🔧 Gerar HTML</button>
+                <button class="action-btn" onclick="clearAllFeatured()" style="background: #e74c3c;">🗑️ Limpar Todos</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Seleção de Produto -->
+    <div id="product-select-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Selecionar Produto para Posição <span id="selected-position"></span></h2>
+                <button class="modal-close" onclick="closeProductSelectModal()">&times;</button>
+            </div>
+            
+            <div class="product-selector" id="product-selector">
+                <!-- Lista de produtos -->
+            </div>
+            
+            <div style="text-align: center; margin-top: 1rem;">
+                <button class="save-btn" onclick="confirmProductSelection()">Confirmar Seleção</button>
+                <button class="action-btn" onclick="closeProductSelectModal()" style="background: #ccc; color: #333;">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configurações de autenticação
+        const AUTH_CONFIG = {
+            username: 'admin',
+            password: 'sustenta2025'
+        };
+
+        // Estado da aplicação
+        let currentEditingProduct = null;
+        let products = [];
+        let featuredProducts = [];
+        let selectedProductForFeatured = null;
+        let selectedFeaturedPosition = null;
+        let currentProductImages = []; // Array para armazenar as imagens do produto atual
+
+        // SISTEMA DE RECUPERAÇÃO E BACKUP AUTOMÁTICO
+        let backupProducts = [];
+        
+        // Carregar produtos com sistema de backup
+        function loadProducts() {
+            try {
+                // Tentar carregar dados salvos
+                const savedProducts = localStorage.getItem('sustainArtsProducts');
+                
+                if (savedProducts) {
+                    products = JSON.parse(savedProducts);
+                    console.log('Produtos carregados do localStorage:', products.length);
+                } else {
+                    console.log('Nenhum produto salvo encontrado, carregando produtos padrão...');
+                    // RESTAURAR PRODUTOS PADRÃO
+                    products = [
+                        {
+                            id: 1,
+                            name: "Cinzeiro Folha de Cannabis",
+                            price: "R$ 35,00",
+                            category: "cinzeiros",
+                            type: "autorais",
+                            description: "Cinzeiro artesanal em resina com formato de folha de cannabis. Peça única e resistente.",
+                            images: ["images/cinzeiro-cannabis.jpg"]
+                        },
+                        {
+                            id: 2,
+                            name: "Cinzeiro Caveira Underground",
+                            price: "R$ 40,00",
+                            category: "cinzeiros",
+                            type: "autorais",
+                            description: "Cinzeiro em resina com design de caveira, perfeito para o estilo underground.",
+                            images: ["images/cinvermelho.PNG"]
+                        },
+                        {
+                            id: 3,
+                            name: "Porta-objetos Coração",
+                            price: "R$ 30,00",
+                            category: "cinzeiros",
+                            type: "autorais",
+                            description: "Porta-objetos em formato de coração, ideal para guardar pequenos itens.",
+                            images: ["images/cinzeiro-e-porta-objetos-coracao.jpg"]
+                        },
+                        {
+                            id: 4,
+                            name: "Chaveiro Folha Cannabis",
+                            price: "R$ 10,00",
+                            category: "acessorios",
+                            type: "autorais",
+                            description: "Chaveiro artesanal em resina com formato de folha de cannabis.",
+                            images: ["images/caveirinho.jpg"]
+                        },
+                        {
+                            id: 5,
+                            name: "Dois em um: Pingente e Brinco Folha Cannabis",
+                            price: "R$ 10,00",
+                            category: "acessorios",
+                            type: "autorais",
+                            description: "Par de brincos em resina com formato de folha de cannabis.",
+                            images: ["images/pingente-e-brinco.jpg"]
+                        },
+                        {
+                            id: 6,
+                            name: "Pilãozinho",
+                            price: "R$ 10,00",
+                            category: "acessorios",
+                            type: "autorais",
+                            description: "Feito em Resina",
+                            images: ["images/pilao.jpg"]
+                        },
+                        {
+                            id: 7,
+                            name: "Bandeja Decorativa Cannabis",
+                            price: "R$ 60,00",
+                            category: "quadros",
+                            type: "autorais",
+                            description: "Bandeja decorativa em resina com desenho de folha de cannabis.",
+                            images: ["images/bandeja-cannabis.jpg"]
+                        },
+                        {
+                            id: 8,
+                            name: "Customização de Calças",
+                            price: "A partir de R$ 80,00",
+                            category: "customizacao",
+                            type: "autorais",
+                            description: "Customização de calças jeans com grafites e desenhos únicos.",
+                            images: ["images/customizacao-calca.jpg"]
+                        },
+                        {
+                            id: 9,
+                            name: "Bolsa Customizada Underground",
+                            price: "A partir de R$ 60,00",
+                            category: "bolsas",
+                            type: "autorais",
+                            description: "Bolsa personalizada com arte exclusiva e materiais sustentáveis.",
+                            images: ["images/bolsa-customizada.jpg"]
+                        },
+                        {
+                            id: 10,
+                            name: "Camiseta Racionais MC's",
+                            price: "R$ 45,00",
+                            category: "camisetas",
+                            type: "revenda",
+                            description: "Camiseta oficial do grupo Racionais MC's, 100% algodão.",
+                            images: ["images/camiseta-racionais.jpg"]
+                        },
+                        {
+                            id: 11,
+                            name: "Camiseta Sabotage",
+                            price: "R$ 40,00",
+                            category: "camisetas",
+                            type: "revenda",
+                            description: "Camiseta em homenagem ao rapper Sabotage, estilo underground.",
+                            images: ["images/camiseta-sabotagem.jpg"]
+                        }
+                    ];
+                    
+                    // Salvar produtos padrão
+                    saveProducts();
+                    console.log('Produtos padrão restaurados!');
+                }
+                
+                // Criar backup automático
+                backupProducts = [...products];
+                
+                // Migrar produtos antigos se necessário
+                products = products.map(product => {
+                    if (product.image && !product.images) {
+                        return {
+                            ...product,
+                            images: [product.image],
+                            image: undefined
+                        };
+                    }
+                    if (!product.images) {
+                        product.images = [];
+                    }
+                    return product;
+                });
+                
+            } catch (error) {
+                console.error('Erro ao carregar produtos:', error);
+                alert('Erro ao carregar dados. Restaurando produtos padrão...');
+                
+                // Em caso de erro, restaurar produtos padrão
+                products = [
+                    {
+                        id: 1,
+                        name: "Cinzeiro Folha de Cannabis",
+                        price: "R$ 35,00",
+                        category: "cinzeiros",
+                        type: "autorais",
+                        description: "Cinzeiro artesanal em resina com formato de folha de cannabis.",
+                        images: ["images/cinzeiro-cannabis.jpg"]
+                    }
+                ];
+            }
+        }
+
+        // Carregar produtos em destaque
+        function loadFeaturedProducts() {
+            const saved = localStorage.getItem('sustainArtsFeaturedProducts');
+            if (saved) {
+                featuredProducts = JSON.parse(saved);
+            } else {
+                // Produtos em destaque padrão baseados no index
+                featuredProducts = [
+                    { position: 1, name: "Cinzeiro Folha de Cannabis", category: "Cinzeiros e Porta-Objetos", price: "R$ 35,00", image: "images/cinzeiro-cannabis.jpg" },
+                    { position: 2, name: "Cinzeiro Caveira Underground", category: "Cinzeiros e Porta-Objetos", price: "R$ 40,00", image: "images/cinzeiro-caveira.jpg" },
+                    { position: 3, name: "Porta-objetos Coração", category: "Cinzeiros e Porta-Objetos", price: "R$ 30,00", image: "images/cinzeiro-e-porta-objetos-coracao.jpg" },
+                    { position: 4, name: "Pilãozinho", category: "Acessórios", price: "R$ 10,00", image: "images/pilao.jpg" },
+                    { position: 5, name: "Chaveiro Folha Cannabis", category: "Acessórios", price: "R$ 10,00", image: "images/caveirinho.jpg" },
+                    { position: 6, name: "Dois em um: Pingente e Brinco Folha Cannabis", category: "Acessórios", price: "R$ 10,00", image: "images/pingente-e-brinco.jpg" }
+                ];
+                saveFeaturedProducts();
+            }
+        }
+
+        // Função para restaurar backup
+        function restoreBackup() {
+            if (backupProducts.length > 0) {
+                if (confirm('Restaurar backup dos produtos? Isso vai substituir os dados atuais.')) {
+                    products = [...backupProducts];
+                    saveProducts();
+                    renderProducts();
+                    updateStats();
+                    alert('Backup restaurado com sucesso!');
+                }
+            } else {
+                alert('Nenhum backup disponível.');
+            }
+        }
+
+        // Remover a função problemática e simplificar
+        function addRecoveryButtons() {
+            const adminActions = document.querySelector('.admin-actions');
+            if (adminActions && !document.getElementById('recovery-btns-added')) {
+                // Botão de restaurar backup
+                const restoreBtn = document.createElement('button');
+                restoreBtn.className = 'action-btn';
+                restoreBtn.style.background = '#3498db';
+                restoreBtn.innerHTML = '🔄 Restaurar Backup';
+                restoreBtn.onclick = restoreBackup;
+                
+                // Botão de reset total (mais seguro)
+                const resetBtn = document.createElement('button');
+                resetBtn.className = 'action-btn';
+                resetBtn.style.background = '#e67e22';
+                resetBtn.innerHTML = '🏠 Reset Produtos Padrão';
+                resetBtn.onclick = function() {
+                    if (confirm('Restaurar todos os produtos padrão do Sustenta.Artes?\n\nIsso vai substituir todos os produtos atuais.')) {
+                        loadProducts(); // Vai carregar os padrão se não houver dados
+                        products = []; // Limpar array
+                        localStorage.removeItem('sustainArtsProducts'); // Limpar storage
+                        loadProducts(); // Recarregar padrões
+                        renderProducts();
+                        updateStats();
+                        alert('Produtos padrão restaurados!');
+                    }
+                };
+                
+                adminActions.appendChild(restoreBtn);
+                adminActions.appendChild(resetBtn);
+                
+                // Marcar como adicionado
+                adminActions.setAttribute('id', 'recovery-btns-added');
+            }
+        }
+
+        // Salvar produtos no localStorage - Função principal
+        function saveProducts() {
+            try {
+                const dataStr = JSON.stringify(products);
+                const dataSizeKB = Math.round((dataStr.length * 3/4) / 1024);
+                
+                console.log(`Tentando salvar ${dataSizeKB}KB de dados`);
+                
+                // Limite aumentado para acomodar mais imagens, mas com compressão maior
+                if (dataSizeKB > 8000) { // 8MB limite para 15 imagens
+                    throw new Error(`Dados muito grandes (${dataSizeKB}KB). Limite: 8MB\n\nDica: Use menos imagens ou imagens menores.`);
+                }
+                
+                localStorage.setItem('sustainArtsProducts', dataStr);
+                console.log('Dados salvos com sucesso no localStorage!');
+                
+                return true;
+                
+            } catch (error) {
+                console.error('Erro detalhado ao salvar:', error);
+                if (error.name === 'QuotaExceededError' || error.message.includes('quota')) {
+                    alert('Erro: Espaço de armazenamento esgotado!\n\nSugestões:\n1. Use menos imagens por produto (recomendado: 5-8 imagens)\n2. Use imagens menores\n3. Exporte os dados e reset o sistema');
+                } else {
+                    alert('Erro ao salvar: ' + error.message);
+                }
+                return false;
+            }
+        }
+
+        // Salvar produtos em destaque
+        function saveFeaturedProducts() {
+            try {
+                localStorage.setItem('sustainArtsFeaturedProducts', JSON.stringify(featuredProducts));
+                console.log('Produtos em destaque salvos!');
+                return true;
+            } catch (error) {
+                console.error('Erro ao salvar produtos em destaque:', error);
+                return false;
+            }
+        }
+
+        // FUNÇÕES PARA GERENCIAR MÚLTIPLAS IMAGENS
+
+        // Adicionar slot de imagem
+        function addImageSlot() {
+            if (currentProductImages.length >= 15) {
+                alert('Máximo de 15 imagens por produto!');
+                return;
+            }
+            
+            currentProductImages.push(null);
+            renderImagesGrid();
+        }
+
+        // Renderizar grid de imagens
+        function renderImagesGrid() {
+            const grid = document.getElementById('images-grid');
+            if (!grid) return;
+            
+            grid.innerHTML = '';
+
+            // Se não há imagens, adiciona o primeiro slot vazio
+            if (currentProductImages.length === 0) {
+                currentProductImages.push(null);
+            }
+
+            currentProductImages.forEach((image, index) => {
+                const imageItem = document.createElement('div');
+                imageItem.className = `image-item ${image ? 'has-image' : ''}`;
+                
+                if (image) {
+                    imageItem.innerHTML = `
+                        <img src="${image}" alt="Produto ${index + 1}">
+                        <div class="image-order">${index + 1}</div>
+                        <button type="button" class="image-remove" onclick="removeImage(${index})">×</button>
+                        <input type="file" accept="image/*" onchange="handleImageChange(${index}, this)">
+                    `;
+                } else {
+                    imageItem.innerHTML = `
+                        <div class="image-placeholder">
+                            <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">📷</div>
+                            <div>Clique para<br>adicionar imagem</div>
+                        </div>
+                        <input type="file" accept="image/*" onchange="handleImageChange(${index}, this)">
+                    `;
+                }
+
+                // Adicionar eventos de drag and drop
+                setupImageDragAndDrop(imageItem, index);
+                
+                // Clique para selecionar arquivo
+                imageItem.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('image-remove')) return;
+                    const fileInput = imageItem.querySelector('input[type="file"]');
+                    if (fileInput) fileInput.click();
+                });
+
+                grid.appendChild(imageItem);
+            });
+
+            // Botão para adicionar mais imagens (se não atingiu o limite)
+            if (currentProductImages.length < 15) {
+                const addButton = document.createElement('div');
+                addButton.className = 'image-item';
+                addButton.innerHTML = `
+                    <div class="image-placeholder">
+                        <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">➕</div>
+                        <div>Adicionar<br>imagem</div>
+                    </div>
+                `;
+                addButton.addEventListener('click', addImageSlot);
+                grid.appendChild(addButton);
+            }
+        }
+
+        // Configurar drag and drop para imagem
+        function setupImageDragAndDrop(element, index) {
+            element.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                element.classList.add('drag-over');
+            });
+
+            element.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                element.classList.remove('drag-over');
+            });
+
+            element.addEventListener('drop', (e) => {
+                e.preventDefault();
+                element.classList.remove('drag-over');
+                
+                const files = e.dataTransfer.files;
+                if (files.length > 0 && files[0].type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        currentProductImages[index] = e.target.result;
+                        renderImagesGrid();
+                    };
+                    reader.readAsDataURL(files[0]);
+                }
+            });
+        }
+
+        // Função para redimensionar imagem e reduzir tamanho - Otimizada para mais imagens
+        function resizeImage(file, maxWidth = 600, quality = 0.6) {
+            return new Promise((resolve) => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                const img = new Image();
+                
+                img.onload = function() {
+                    // Calcular novas dimensões mantendo proporção
+                    let { width, height } = img;
+                    
+                    if (width > maxWidth) {
+                        height = (height * maxWidth) / width;
+                        width = maxWidth;
+                    }
+                    
+                    if (height > maxWidth) {
+                        width = (width * maxWidth) / height;
+                        height = maxWidth;
+                    }
+                    
+                    // Redimensionar no canvas
+                    canvas.width = width;
+                    canvas.height = height;
+                    
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    // Converter para base64 com qualidade reduzida para suportar mais imagens
+                    const resizedDataUrl = canvas.toDataURL('image/jpeg', quality);
+                    resolve(resizedDataUrl);
+                };
+                
+                img.src = URL.createObjectURL(file);
+            });
+        }
+
+        // Manipular mudança de imagem - Com otimização de tamanho
+        async function handleImageChange(index, input) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            if (!file.type.startsWith('image/')) {
+                alert('Por favor, selecione apenas arquivos de imagem.');
+                return;
+            }
+            
+            if (file.size > 10 * 1024 * 1024) {
+                alert('Imagem muito grande! Máximo 10MB.');
+                return;
+            }
+            
+            try {
+                // Mostrar loading
+                const imageItem = input.closest('.image-item');
+                if (imageItem) {
+                    imageItem.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #666;">Processando...</div>';
+                }
+                
+                // Redimensionar e otimizar imagem (mais otimizado para 15 imagens)
+                const optimizedImage = await resizeImage(file, 500, 0.6);
+                
+                // Verificar tamanho da string resultante
+                const imageSizeKB = Math.round((optimizedImage.length * 3/4) / 1024);
+                console.log(`Imagem otimizada: ${imageSizeKB}KB`);
+                
+                if (imageSizeKB > 300) {
+                    // Para 15 imagens, precisamos ser mais agressivos na compressão
+                    const moreOptimized = await resizeImage(file, 400, 0.5);
+                    currentProductImages[index] = moreOptimized;
+                } else {
+                    currentProductImages[index] = optimizedImage;
+                }
+                
+                renderImagesGrid();
+                
+            } catch (error) {
+                console.error('Erro ao processar imagem:', error);
+                alert('Erro ao processar imagem. Tente uma imagem menor.');
+                renderImagesGrid();
+            }
+        }
+
+        // Remover imagem
+        function removeImage(index) {
+            currentProductImages.splice(index, 1);
+            renderImagesGrid();
+        }
+
+        // Criar carrossel de miniaturas para a tabela
+        function createThumbnailCarousel(images, productId) {
+            if (!images || images.length === 0) {
+                return `<div class="thumbnail-single" style="font-size: 0.8rem; color: #999; text-align: center;">Sem imagem</div>`;
+            }
+
+            if (images.length === 1) {
+                return `
+                    <div class="thumbnail-single">
+                        <img src="${images[0]}" alt="Produto" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div style="display: none; align-items: center; justify-content: center; width: 100%; height: 100%; font-size: 0.8rem; color: #999; text-align: center;">Erro ao carregar</div>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="thumbnail-carousel">
+                    <div class="thumbnail-images" id="thumbnail-${productId}" style="transform: translateX(0%);">
+                        ${images.map((img, index) => `<img src="${img}" alt="Produto ${index + 1}" onerror="this.style.opacity='0.3';">`).join('')}
+                    </div>
+                    <button class="thumbnail-nav prev" onclick="navigateThumbnail(${productId}, -1)" type="button">‹</button>
+                    <button class="thumbnail-nav next" onclick="navigateThumbnail(${productId}, 1)" type="button">›</button>
+                    <div class="thumbnail-counter">
+                        <span id="current-${productId}">1</span>/${images.length}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Array para controlar o índice atual de cada produto
+        const thumbnailIndices = {};
+
+        // Navegar no carrossel de miniaturas
+        function navigateThumbnail(productId, direction) {
+            const product = products.find(p => p.id === productId);
+            if (!product || !product.images || product.images.length <= 1) return;
+
+            const carousel = document.getElementById(`thumbnail-${productId}`);
+            const counter = document.getElementById(`current-${productId}`);
+            
+            if (!carousel || !counter) return;
+
+            // Inicializar índice se não existir
+            if (!(productId in thumbnailIndices)) {
+                thumbnailIndices[productId] = 0;
+            }
+
+            let currentIndex = thumbnailIndices[productId];
+            currentIndex += direction;
+
+            // Loop circular
+            if (currentIndex < 0) {
+                currentIndex = product.images.length - 1;
+            } else if (currentIndex >= product.images.length) {
+                currentIndex = 0;
+            }
+
+            // Atualizar índice
+            thumbnailIndices[productId] = currentIndex;
+
+            // Aplicar transformação
+            carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+            counter.textContent = currentIndex + 1;
+
+            // Prevenir propagação do evento
+            event.stopPropagation();
+        }
+
+        // Autenticação
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username === AUTH_CONFIG.username && password === AUTH_CONFIG.password) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('admin-panel').style.display = 'block';
+                loadProducts();
+                loadFeaturedProducts();
+                renderProducts();
+                updateStats();
+            } else {
+                showError('Usuário ou senha incorretos!');
+            }
+        });
+
+        // Logout
+        function logout() {
+            document.getElementById('login-screen').style.display = 'block';
+            document.getElementById('admin-panel').style.display = 'none';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        // Renderizar produtos
+        function renderProducts() {
+            const productsList = document.getElementById('products-list');
+            if (!productsList) return;
+            
+            productsList.innerHTML = '';
+            
+            products.forEach(product => {
+                const productRow = document.createElement('div');
+                productRow.className = 'product-row';
+                
+                productRow.innerHTML = `
+                    <div class="product-thumbnail">
+                        ${createThumbnailCarousel(product.images, product.id)}
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-category">${getCategoryLabel(product.category)}</div>
+                        <div class="product-description">${product.description}</div>
+                        ${product.images && product.images.length > 1 ? 
+                            `<div style="font-size: 0.8rem; color: #40E0D0; margin-top: 0.25rem;">📷 ${product.images.length} imagens</div>` : 
+                            ''
+                        }
+                    </div>
+                    <div class="product-price">${product.price}</div>
+                    <div class="product-type ${product.type}">${product.type === 'autorais' ? 'Arte Autoral' : 'Revenda'}</div>
+                    <div class="product-actions">
+                        <button class="btn-edit" onclick="editProduct(${product.id}); event.stopPropagation();">✏️ Editar</button>
+                        <button class="btn-delete" onclick="deleteProduct(${product.id}); event.stopPropagation();">🗑️ Excluir</button>
+                    </div>
+                `;
+                
+                productsList.appendChild(productRow);
+            });
+
+            // Inicializar índices do carrossel para todos os produtos
+            products.forEach(product => {
+                if (product.images && product.images.length > 1) {
+                    thumbnailIndices[product.id] = 0;
+                }
+            });
+        }
+
+        // Atualizar estatísticas
+        function updateStats() {
+            document.getElementById('total-products').textContent = products.length;
+            document.getElementById('autorais-count').textContent = products.filter(p => p.type === 'autorais').length;
+            document.getElementById('revenda-count').textContent = products.filter(p => p.type === 'revenda').length;
+        }
+
+        // Obter label da categoria
+        function getCategoryLabel(category) {
+            const labels = {
+                'cinzeiros': 'Cinzeiros e Porta-objetos',
+                'acessorios': 'Acessórios',
+                'quadros': 'Quadros e Artes em Resina',
+                'customizacao': 'Customização de Roupas',
+                'bolsas': 'Bolsas Customizadas',
+                'camisetas': 'Camisetas de Bandas'
+            };
+            return labels[category] || category;
+        }
+
+        // Abrir modal de adicionar produto
+        function openAddProductModal() {
+            currentEditingProduct = null;
+            currentProductImages = [];
+            document.getElementById('modal-title').textContent = 'Adicionar Produto';
+            document.getElementById('product-form').reset();
+            
+            // Limpar campos específicos
+            document.getElementById('product-name').value = '';
+            document.getElementById('product-price').value = '';
+            document.getElementById('product-category').value = '';
+            document.getElementById('product-type').value = '';
+            document.getElementById('product-description').value = '';
+            
+            renderImagesGrid();
+            document.getElementById('product-modal').classList.add('active');
+            
+            console.log('Modal de adicionar produto aberto');
+        }
+
+        // Editar produto
+        function editProduct(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            currentEditingProduct = product;
+            currentProductImages = [...(product.images || [])];
+            document.getElementById('modal-title').textContent = 'Editar Produto';
+            
+            // Preencher formulário
+            document.getElementById('product-name').value = product.name;
+            document.getElementById('product-price').value = product.price;
+            document.getElementById('product-category').value = product.category;
+            document.getElementById('product-type').value = product.type;
+            document.getElementById('product-description').value = product.description;
+            
+            renderImagesGrid();
+            document.getElementById('product-modal').classList.add('active');
+        }
+
+        // Excluir produto - Versão simplificada e robusta
+        function deleteProduct(productId) {
+            console.log('=== INICIANDO EXCLUSÃO ===');
+            console.log('ID do produto:', productId);
+            console.log('Produtos atuais:', products.length);
+            
+            if (!productId) {
+                alert('Erro: ID do produto inválido!');
+                return;
+            }
+            
+            // Encontrar o produto
+            const productIndex = products.findIndex(p => p.id == productId); // Usar == para comparação flexível
+            
+            console.log('Índice encontrado:', productIndex);
+            
+            if (productIndex === -1) {
+                alert('Erro: Produto não encontrado na lista!');
+                console.error('Produto não encontrado. ID procurado:', productId);
+                console.log('IDs disponíveis:', products.map(p => p.id));
+                return;
+            }
+            
+            const product = products[productIndex];
+            console.log('Produto encontrado:', product.name);
+            
+            // Confirmação
+            if (confirm(`Excluir o produto "${product.name}"?\n\nEsta ação não pode ser desfeita!`)) {
+                try {
+                    // Remover do array
+                    products.splice(productIndex, 1);
+                    console.log('Produto removido do array. Restam:', products.length);
+                    
+                    // Salvar alterações
+                    const saved = saveProducts();
+                    if (!saved) {
+                        console.error('Falha ao salvar após exclusão');
+                        return;
+                    }
+                    
+                    // Remover dos produtos em destaque se existir
+                    const originalFeaturedLength = featuredProducts.length;
+                    featuredProducts = featuredProducts.filter(f => f.productId != productId);
+                    
+                    if (featuredProducts.length !== originalFeaturedLength) {
+                        saveFeaturedProducts();
+                        console.log('Produto também removido dos destaques');
+                    }
+                    
+                    // Atualizar interface
+                    renderProducts();
+                    updateStats();
+                    
+                    alert(`Produto "${product.name}" excluído com sucesso!`);
+                    console.log('=== EXCLUSÃO CONCLUÍDA ===');
+                    
+                } catch (error) {
+                    console.error('Erro durante exclusão:', error);
+                    alert('Erro ao excluir produto: ' + error.message);
+                }
+            }
+        }
+
+        // Fechar modal
+        function closeModal() {
+            document.getElementById('product-modal').classList.remove('active');
+            currentProductImages = [];
+            currentEditingProduct = null;
+            
+            // Limpar formulário completamente
+            const form = document.getElementById('product-form');
+            if (form) {
+                form.reset();
+            }
+            
+            // Limpar campos específicos
+            const fields = ['product-name', 'product-price', 'product-category', 'product-type', 'product-description'];
+            fields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (field) {
+                    field.value = '';
+                }
+            });
+            
+            console.log('Modal fechado e dados limpos');
+        }
+
+        // FUNÇÕES PARA GERENCIAR PRODUTOS EM DESTAQUE
+
+        // Abrir modal de produtos em destaque
+        function openFeaturedModal() {
+            renderFeaturedGrid();
+            document.getElementById('featured-modal').classList.add('active');
+        }
+
+        // Fechar modal de produtos em destaque
+        function closeFeaturedModal() {
+            document.getElementById('featured-modal').classList.remove('active');
+        }
+
+        // Renderizar grid de produtos em destaque
+        function renderFeaturedGrid() {
+            const grid = document.getElementById('featured-grid');
+            grid.innerHTML = '';
+
+            for (let i = 1; i <= 6; i++) {
+                const featured = featuredProducts.find(f => f.position === i);
+                const slot = document.createElement('div');
+                
+                if (featured) {
+                    slot.className = 'featured-slot';
+                    slot.innerHTML = `
+                        <div class="slot-image">
+                            ${featured.image ? 
+                                `<img src="${featured.image}" alt="${featured.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">` : 
+                                ''
+                            }
+                            <span style="font-size: 0.8rem; color: #999; display: ${featured.image ? 'none' : 'flex'}; align-items: center; justify-content: center; width: 100%; height: 100%;">Sem img</span>
+                        </div>
+                        <div class="slot-info">
+                            <div class="slot-name">${featured.name}</div>
+                            <div style="font-size: 0.8rem; color: #666; margin-bottom: 0.5rem;">${featured.category}</div>
+                            <div class="slot-price">${featured.price}</div>
+                        </div>
+                        <div>
+                            <button class="btn-small btn-remove" onclick="removeFeatured(${i})">
+                                Remover
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    slot.className = 'featured-slot empty';
+                    slot.onclick = () => selectProductForPosition(i);
+                    slot.innerHTML = `
+                        <div style="color: #999;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">➕</div>
+                            <div>Posição ${i}</div>
+                            <div style="font-size: 0.8rem;">Clique para adicionar</div>
+                        </div>
+                    `;
+                }
+                
+                grid.appendChild(slot);
+            }
+        }
+
+        // Selecionar produto para uma posição
+        function selectProductForPosition(position) {
+            if (products.length === 0) {
+                showError('Nenhum produto cadastrado! Cadastre produtos primeiro.');
+                return;
+            }
+            
+            selectedFeaturedPosition = position;
+            document.getElementById('selected-position').textContent = position;
+            renderProductSelector();
+            document.getElementById('product-select-modal').classList.add('active');
+        }
+
+        // Renderizar seletor de produtos
+        function renderProductSelector() {
+            const selector = document.getElementById('product-selector');
+            selector.innerHTML = '';
+
+            if (products.length === 0) {
+                selector.innerHTML = '<div style="padding: 2rem; text-align: center; color: #999;">Nenhum produto disponível</div>';
+                return;
+            }
+
+            products.forEach(product => {
+                const option = document.createElement('div');
+                option.className = 'product-option';
+                option.onclick = () => selectProductOption(product, option);
+                
+                const mainImage = product.images && product.images.length > 0 ? product.images[0] : null;
+                
+                option.innerHTML = `
+                    <div class="product-thumb">
+                        ${mainImage ? 
+                            `<img src="${mainImage}" alt="${product.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">` : 
+                            ''
+                        }
+                        <span style="display: ${mainImage ? 'none' : 'flex'}; align-items: center; justify-content: center; width: 100%; height: 100%; font-size: 0.7rem; color: #999;">Sem img</span>
+                    </div>
+                    <div>
+                        <div style="font-weight: 600;">${product.name}</div>
+                        <div style="color: #666; font-size: 0.9rem;">${getCategoryLabel(product.category)} - ${product.price}</div>
+                        ${product.images && product.images.length > 1 ? 
+                            `<div style="font-size: 0.8rem; color: #40E0D0;">📷 ${product.images.length} imagens</div>` : 
+                            ''
+                        }
+                    </div>
+                `;
+                
+                selector.appendChild(option);
+            });
+        }
+
+        // Selecionar produto na lista
+        function selectProductOption(product, element) {
+            document.querySelectorAll('.product-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            selectedProductForFeatured = product;
+        }
+
+        // Confirmar seleção de produto
+        function confirmProductSelection() {
+            if (!selectedProductForFeatured) {
+                showError('Selecione um produto!');
+                return;
+            }
+
+            // Remover produto existente na posição
+            featuredProducts = featuredProducts.filter(f => f.position !== selectedFeaturedPosition);
+            
+            // Usar a primeira imagem do produto
+            const mainImage = selectedProductForFeatured.images && selectedProductForFeatured.images.length > 0 
+                ? selectedProductForFeatured.images[0] 
+                : null;
+            
+            // Adicionar novo produto
+            featuredProducts.push({
+                position: selectedFeaturedPosition,
+                name: selectedProductForFeatured.name,
+                category: getCategoryLabel(selectedProductForFeatured.category),
+                price: selectedProductForFeatured.price,
+                image: mainImage,
+                productId: selectedProductForFeatured.id
+            });
+
+            featuredProducts.sort((a, b) => a.position - b.position);
+            saveFeaturedProducts();
+            renderFeaturedGrid();
+            closeProductSelectModal();
+            showSuccess(`Produto adicionado na posição ${selectedFeaturedPosition}!`);
+        }
+
+        // Fechar modal de seleção de produto
+        function closeProductSelectModal() {
+            document.getElementById('product-select-modal').classList.remove('active');
+            selectedProductForFeatured = null;
+            selectedFeaturedPosition = null;
+        }
+
+        // Remover produto em destaque
+        function removeFeatured(position) {
+            if (confirm(`Remover produto da posição ${position}?`)) {
+                featuredProducts = featuredProducts.filter(f => f.position !== position);
+                saveFeaturedProducts();
+                renderFeaturedGrid();
+                showSuccess(`Produto removido da posição ${position}!`);
+            }
+        }
+
+        // Exportar produtos em destaque
+        function exportFeatured() {
+            const dataStr = JSON.stringify(featuredProducts, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const link = document.createElement('a');
+            link.setAttribute('href', dataUri);
+            link.setAttribute('download', 'produtos_em_destaque.json');
+            link.click();
+            
+            showSuccess('Produtos em destaque exportados!');
+        }
+
+        // Gerar HTML dos produtos em destaque
+        function generateFeaturedHTML() {
+            let html = '<!-- Produtos em Destaque - Gerado pelo Admin -->\n<div class="products-grid">\n';
+            
+            for (let i = 1; i <= 6; i++) {
+                const featured = featuredProducts.find(f => f.position === i);
+                if (featured) {
+                    html += `    <div class="product-card">\n`;
+                    html += `        <div class="product-image">\n`;
+                    if (featured.image) {
+                        html += `            <img src="${featured.image}" alt="${featured.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">\n`;
+                        html += `            <div class="product-placeholder" style="display: none;">${featured.name}</div>\n`;
+                    } else {
+                        html += `            <div class="product-placeholder">${featured.name}</div>\n`;
+                    }
+                    html += `        </div>\n`;
+                    html += `        <h3 class="product-name">${featured.name}</h3>\n`;
+                    html += `        <p class="product-category">${featured.category}</p>\n`;
+                    html += `        <span class="product-price">${featured.price}</span>\n`;
+                    html += `    </div>\n`;
+                }
+            }
+            
+            html += '</div>\n<!-- Fim dos Produtos em Destaque -->';
+            
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'produtos_destaque_para_index.html';
+            link.click();
+            URL.revokeObjectURL(url);
+            
+            showSuccess('HTML gerado! Substitua no index.html');
+        }
+
+        // Limpar todos os produtos em destaque
+        function clearAllFeatured() {
+            if (confirm('Remover TODOS os produtos em destaque? Esta ação não pode ser desfeita!')) {
+                featuredProducts = [];
+                saveFeaturedProducts();
+                renderFeaturedGrid();
+                showSuccess('Todos os produtos em destaque foram removidos!');
+            }
+        }
+
+        // Mostrar mensagem de sucesso
+        function showSuccess(message) {
+            const alert = document.createElement('div');
+            alert.className = 'alert success';
+            alert.textContent = message;
+            alert.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 10001;
+                animation: slideInRight 0.3s ease;
+                max-width: 300px;
+            `;
+            document.body.appendChild(alert);
+            
+            setTimeout(() => {
+                alert.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => {
+                    if (document.body.contains(alert)) {
+                        document.body.removeChild(alert);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Mostrar mensagem de erro
+        function showError(message) {
+            const loginError = document.getElementById('login-error');
+            if (loginError && loginError.style.display !== 'none') {
+                loginError.textContent = message;
+                loginError.style.display = 'block';
+                setTimeout(() => loginError.style.display = 'none', 5000);
+            } else {
+                const alert = document.createElement('div');
+                alert.className = 'alert error';
+                alert.textContent = message;
+                alert.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    z-index: 10001;
+                    animation: slideInRight 0.3s ease;
+                    max-width: 300px;
+                `;
+                document.body.appendChild(alert);
+                
+                setTimeout(() => {
+                    alert.style.animation = 'slideOutRight 0.3s ease';
+                    setTimeout(() => {
+                        if (document.body.contains(alert)) {
+                            document.body.removeChild(alert);
+                        }
+                    }, 300);
+                }, 5000);
+            }
+        }
+
+        // Salvar produto - Versão simplificada e robusta
+// ============================================
+// NOVA FUNÇÃO PARA SALVAR EM FIREBASE + LOCAL
+// ============================================
+
+async function saveProductToFirebaseAndLocal(productData) {
+    console.log('💾 Salvando produto em Firebase e localStorage...');
+    
+    // 1. Salvar no Firebase
+    let firebaseSuccess = false;
+    let firebaseId = null;
+    if (window.firebaseDb) {
+        try {
+            const docRef = await window.firebaseDb.collection('products').add({
+                ...productData,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            console.log('✅ Produto salvo no Firebase:', docRef.id);
+            firebaseSuccess = true;
+            firebaseId = docRef.id;
+        } catch (error) {
+            console.error('❌ Erro ao salvar no Firebase:', error);
+        }
+    }
+    
+    // 2. Salvar no localStorage (fallback)
+    let localSuccess = false;
+    try {
+        const existingProducts = JSON.parse(localStorage.getItem('sustainArtsProducts') || '[]');
+        const newProduct = {
+            id: firebaseId || Date.now(), // Usar ID do Firebase se disponível
+            ...productData
+        };
+        existingProducts.push(newProduct);
+        localStorage.setItem('sustainArtsProducts', JSON.stringify(existingProducts));
+        console.log('✅ Produto salvo no localStorage');
+        localSuccess = true;
+    } catch (error) {
+        console.error('❌ Erro ao salvar no localStorage:', error);
+    }
+    
+    return { firebaseSuccess, localSuccess, firebaseId };
+}
+
+// ============================================
+// FIM DA NOVA FUNÇÃO
+// ============================================
+
+
+        document.getElementById('product-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Obter dados do formulário de forma simples
+            const name = document.getElementById('product-name').value.trim();
+            const price = document.getElementById('product-price').value.trim();
+            const category = document.getElementById('product-category').value;
+            const type = document.getElementById('product-type').value;
+            const description = document.getElementById('product-description').value.trim();
+            
+            // Validações básicas
+            if (!name) {
+                alert('Nome do produto é obrigatório!');
+                return;
+            }
+            
+            if (!price) {
+                alert('Preço do produto é obrigatório!');
+                return;
+            }
+            
+            if (!category) {
+                alert('Categoria do produto é obrigatória!');
+                return;
+            }
+            
+            if (!type) {
+                alert('Tipo do produto é obrigatório!');
+                return;
+            }
+            
+            if (!description) {
+                alert('Descrição do produto é obrigatória!');
+                return;
+            }
+            
+            // Processar imagens de forma mais segura
+            let validImages = [];
+            try {
+                validImages = currentProductImages.filter(img => img && typeof img === 'string' && img.length > 50);
+            } catch (error) {
+                console.error('Erro ao processar imagens:', error);
+                validImages = [];
+            }
+            
+            if (validImages.length === 0) {
+                alert('Adicione pelo menos uma imagem ao produto!');
+                return;
+            }
+            
+            // Criar objeto do produto
+            const productData = {
+                name: name,
+                price: price,
+                category: category,
+                type: type,
+                description: description,
+                images: validImages
+            };
+            
+            try {
+                if (currentEditingProduct && currentEditingProduct.id) {
+                    // Editando produto existente
+                    const index = products.findIndex(p => p.id === currentEditingProduct.id);
+                    if (index >= 0) {
+                        products[index] = {
+                            id: currentEditingProduct.id,
+                            ...productData
+                        };
+                        alert('Produto atualizado com sucesso!');
+                    } else {
+                        alert('Erro: Produto não encontrado para edição!');
+                        return;
+                    }
+                } else {
+                    // Adicionando novo produto
+                    let newId = 1;
+                    if (products.length > 0) {
+                        const maxId = Math.max(...products.map(p => p.id || 0));
+                        newId = maxId + 1;
+                    }
+                    
+                    const newProduct = {
+                        id: newId,
+                        ...productData
+                    };
+                    
+                    products.push(newProduct);
+                    alert('Produto adicionado com sucesso!');
+                }
+                
+                // Salvar no localStorage
+                localStorage.setItem('sustainArtsProducts', JSON.stringify(products));
+                
+                // Atualizar interface
+                renderProducts();
+                updateStats();
+                closeModal();
+                
+            } catch (error) {
+                console.error('Erro ao salvar:', error);
+                alert('Erro ao salvar produto: ' + error.message);
+            }
+        });
+
+        // Formatação de preço
+        document.getElementById('product-price').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 0) {
+                value = (parseInt(value) / 100).toFixed(2);
+                value = value.replace('.', ',');
+                e.target.value = 'R$ ' + value;
+            }
+        });
+
+        // Exportar produtos
+        function exportProducts() {
+            const dataStr = JSON.stringify(products, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = 'produtos_sustenta_artes.json';
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            showSuccess('Dados exportados com sucesso!');
+        }
+
+        // Atualizar lista de produtos
+        function refreshProducts() {
+            loadProducts();
+            loadFeaturedProducts();
+            renderProducts();
+            updateStats();
+            showSuccess('Lista atualizada!');
+        }
+
+        // Fechar modals ao clicar fora
+        document.getElementById('product-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        document.getElementById('featured-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeFeaturedModal();
+            }
+        });
+
+        document.getElementById('product-select-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeProductSelectModal();
+            }
+        });
+
+        // Adicionar animações CSS
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = `
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            
+            @keyframes slideOutRight {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+            
+            .modal {
+                animation: fadeIn 0.3s ease;
+            }
+            
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+            
+            .product-row {
+                animation: slideInUp 0.3s ease;
+            }
+            
+            @keyframes slideInUp {
+                from { transform: translateY(20px); opacity: 0; }
+                to { transform: translateY(0); opacity: 1; }
+            }
+
+            /* Animações para o carrossel */
+            .thumbnail-images {
+                transition: transform 0.3s ease;
+            }
+
+            .image-item {
+                transition: all 0.3s ease;
+            }
+
+            .image-item:hover {
+                transform: scale(1.02);
+            }
+
+            /* Variáveis CSS para cores */
+            :root {
+                --color-primary: #246F24;
+                --color-secondary: #2E8B2E;
+                --color-turquoise: #40E0D0;
+                --color-accent: #D2691E;
+                --color-dark: #2c3e50;
+                --color-gray: #7f8c8d;
+                --color-light-gray: #bdc3c7;
+                --color-light: #f8f9fa;
+                --color-white: #ffffff;
+                --font-display: 'Metal Mania', cursive;
+                --font-body: 'Open Sans', sans-serif;
+                --transition: all 0.3s ease;
+            }
+        `;
+        document.head.appendChild(styleSheet);
+
+        // Inicializar quando a página carregar - COM RECUPERAÇÃO E DEBUG
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🔄 Iniciando sistema com recuperação...');
+            
+            // Carregar produtos (vai restaurar padrões se necessário)
+            loadProducts();
+            loadFeaturedProducts();
+            
+            // Renderizar interface
+            renderProducts();
+            updateStats();
+            
+            // Adicionar botões de recuperação
+            addRecoveryButtons();
+            
+            // Adicionar botão de teste (temporário)
+            addTestButton();
+            
+            console.log('✅ Sistema iniciado com', products.length, 'produtos');
+        });
+
+        // No admin.html, adicione este botão e função
+async function migrateToFirebase() {
+  try {
+    const localProducts = JSON.parse(localStorage.getItem('sustainArtsProducts') || '[]');
+    
+    if (localProducts.length === 0) {
+      alert('Nenhum produto local para migrar');
+      return;
+    }
+
+    if (!window.FirebaseProducts || !window.FirebaseProducts.initialized) {
+      alert('Firebase não está conectado. Verifique o console.');
+      return;
+    }
+
+    const confirmacao = confirm(`Migrar ${localProducts.length} produtos para o Firebase?`);
+    if (!confirmacao) return;
+
+    let successCount = 0;
+    let errorCount = 0;
+
+    for (const product of localProducts) {
+      try {
+        await window.firebaseDb.collection('products').add({
+          name: product.name,
+          price: product.price,
+          category: product.category,
+          type: product.type,
+          description: product.description,
+          images: product.images || [],
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          migratedFromLocal: true
+        });
+        successCount++;
+      } catch (error) {
+        console.error('Erro migrando:', product.name, error);
+        errorCount++;
+      }
+    }
+
+    alert(`Migração concluída!\n✅ ${successCount} produtos migrados\n❌ ${errorCount} erros`);
+
+  } catch (error) {
+    console.error('Erro na migração:', error);
+    alert('Erro na migração: ' + error.message);
+  }
+}
+
+// Adicione este botão no admin-actions:
+// <button class="action-btn" onclick="migrateToFirebase()" style="background: #9b59b6;">🚀 Migrar para Firebase</button>
+    </script>
+</body>
+</html>

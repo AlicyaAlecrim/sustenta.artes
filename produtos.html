@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtos - Sustenta.Artes</title>
+    <meta name="description" content="Confira nossos produtos únicos: artes autorais e produtos de revenda. Cinzeiros, customização de roupas, acessórios e muito mais.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/pixo-reto" rel="stylesheet">
+    <style>
+        /* Estilos para carrossel de produtos */
+        .product-image {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            aspect-ratio: 1;
+            cursor: pointer;
+            background: #f5f5f5;
+        }
+        
+        .product-carousel {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .carousel-images {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+        
+        .carousel-images img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            flex-shrink: 0;
+            display: block;
+        }
+        
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 10;
+            border-radius: 50%;
+        }
+        
+        .carousel-nav:hover {
+            background: rgba(0,0,0,0.9);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .product-image:hover .carousel-nav {
+            opacity: 1;
+        }
+        
+        .carousel-nav.prev {
+            left: 10px;
+        }
+        
+        .carousel-nav.next {
+            right: 10px;
+        }
+        
+        .carousel-counter {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+        
+        .product-single-image {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .product-single-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+        
+        .product-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background: #f0f0f0;
+            color: #999;
+            font-size: 14px;
+            text-align: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 3px 6px;
+            border-radius: 8px;
+            font-size: 9px;
+            font-weight: bold;
+            z-index: 5;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .product-badge.autorais {
+            background: rgba(36, 111, 36, 0.9);
+            color: white;
+        }
+        
+        .product-badge.revenda {
+            background: rgba(64, 224, 208, 0.9);
+            color: white;
+        }
+
+        /* Garantir que o container do produto tenha proporção quadrada */
+        .product-card {
+            display: flex;
+            flex-direction: column;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        /* Ajustes específicos para diferentes tamanhos de tela */
+        @media (max-width: 768px) {
+            .product-image {
+                border-radius: 10px 10px 0 0;
+            }
+            
+            .carousel-nav {
+                width: 28px;
+                height: 28px;
+                font-size: 14px;
+            }
+            
+            .carousel-nav.prev {
+                left: 8px;
+            }
+            
+            .carousel-nav.next {
+                right: 8px;
+            }
+            
+            .carousel-counter {
+                bottom: 8px;
+                right: 8px;
+                font-size: 11px;
+                padding: 3px 6px;
+            }
+            
+            .product-badge {
+                top: 8px;
+                right: 8px;
+                padding: 2px 5px;
+                font-size: 8px;
+                border-radius: 6px;
+            }
+        }
+
+        /* Loading state */
+        .products-loading {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .no-products {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .no-products h3 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        /* Lightbox styles */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            font-size: 24px;
+            border-radius: 50%;
+        }
+
+        .lightbox-nav.prev {
+            left: -60px;
+        }
+
+        .lightbox-nav.next {
+            right: -60px;
+        }
+    </style>
+</head>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+
+
+
+<!-- ADICIONE isto ANTES do main.js: -->
+<script src="firebase-config.js"></script>
+<script src="firebase-simple.js"></script>
+<script src="main.js"></script>
+<script>
+// Sistema de produtos integrado com Firebase
+async function loadProductsWithFirebase() {
+    console.log('🔄 Carregando produtos (Firebase + Fallback)...');
+    
+    // Tentar Firebase primeiro
+    if (window.FirebaseProducts && window.FirebaseProducts.initialized) {
+        try {
+            const firebaseProducts = await window.FirebaseProducts.loadProducts();
+            console.log(`📦 ${firebaseProducts.length} produtos carregados`);
+            return firebaseProducts;
+        } catch (error) {
+            console.error('❌ Erro ao carregar do Firebase:', error);
+        }
+    }
+    
+    // Fallback para localStorage
+    const savedProducts = localStorage.getItem('sustainArtsProducts');
+    if (savedProducts) {
+        const localProducts = JSON.parse(savedProducts);
+        console.log(`📁 ${localProducts.length} produtos do localStorage`);
+        return localProducts;
+    }
+    
+    // Produtos padrão se não houver nada
+    console.log('🏠 Usando produtos padrão');
+    return [
+        {
+            id: 1,
+            name: "Cinzeiro Folha de Cannabis",
+            price: "R$ 35,00",
+            category: "cinzeiros",
+            type: "autorais",
+            description: "Cinzeiro artesanal em resina com formato de folha de cannabis.",
+            images: ["images/cinzeiro-cannabis.jpg"]
+        }
+        // ... outros produtos padrão
+    ];
+}
+
+// Substituir a função loadProducts original
+document.addEventListener('DOMContentLoaded', async function() {
+    console.log('🎨 Página de produtos - Iniciando carregamento...');
+    
+    // Carregar produtos do Firebase/localStorage
+    window.products = await loadProductsWithFirebase();
+    console.log('✅ Produtos carregados:', window.products.length);
+    
+    // Aplicar filtros iniciais
+    if (typeof window.filterProducts === 'function') {
+        window.filterProducts();
+    } else {
+        console.error('❌ filterProducts não encontrado');
+    }
+    
+    // Adicionar indicador de origem dos dados
+    addDataOriginIndicator();
+});
+
+function addDataOriginIndicator() {
+    const indicator = document.createElement('div');
+    indicator.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        background: rgba(36, 111, 36, 0.9);
+        color: white;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        z-index: 9999;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    `;
+    
+    if (window.FirebaseProducts && window.FirebaseProducts.initialized) {
+        indicator.innerHTML = '🔥 Dados em tempo real';
+    } else {
+        indicator.innerHTML = '📁 Dados locais';
+    }
+    
+    document.body.appendChild(indicator);
+}
+</script>
+
+
+<body>
+    <!-- Overlay para escurecer o fundo quando drawer está aberto -->
+    <div class="drawer-overlay"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <h1>SUS.TEN.TA</h1>
+                    <span class="logo-subtitle"></span>
+                </div>
+                <!-- Menu Desktop -->
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="produtos.html" class="nav-link active">Produtos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="sobre.html" class="nav-link">Sobre</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="encomendas.html" class="nav-link">Encomendas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="contato.html" class="nav-link">Contato</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="admin.html" class="nav-link">Admin</a>
+                    </li>
+                </ul>
+                <!-- Hamburger Menu -->
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Menu Drawer Lateral (APENAS MOBILE) -->
+    <nav class="nav-drawer">
+        <div class="drawer-header">
+            <button class="drawer-close">&times;</button>
+            <div class="drawer-logo">SUS.TEN.TA</div>
+            <div class="drawer-subtitle">Arte que transforma</div>
+        </div>
+        
+        <ul class="drawer-menu">
+            <li class="drawer-item">
+                <a href="index.html" class="drawer-link">
+                    <span class="drawer-icon">🏠</span>
+                    Home
+                </a>
+            </li>
+            <li class="drawer-item">
+                <a href="produtos.html" class="drawer-link active">
+                    <span class="drawer-icon">🎨</span>
+                    Produtos
+                </a>
+            </li>
+            <li class="drawer-item">
+                <a href="sobre.html" class="drawer-link">
+                    <span class="drawer-icon">ℹ️</span>
+                    Sobre
+                </a>
+            </li>
+            <li class="drawer-item">
+                <a href="encomendas.html" class="drawer-link">
+                    <span class="drawer-icon">📋</span>
+                    Encomendas
+                </a>
+            </li>
+            <li class="drawer-item">
+                <a href="contato.html" class="drawer-link">
+                    <span class="drawer-icon">📞</span>
+                    Contato
+                </a>
+            </li>
+            <li class="drawer-item">
+                <a href="admin.html" class="drawer-link">
+                    <span class="drawer-icon">⚙️</span>
+                    Admin
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-title">Nossos Produtos</h1>
+            <p class="page-subtitle">Descubra peças únicas que combinam arte, sustentabilidade e estilo underground</p>
+        </div>
+    </section>
+
+    <!-- Product Filters -->
+    <section class="product-filters">
+        <div class="container">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">Todos os Produtos</button>
+                <button class="filter-btn" data-filter="autorais">Artes Autorais</button>
+                <button class="filter-btn" data-filter="revenda">Produtos de Revenda</button>
+            </div>
+            
+            <div class="category-filters">
+                <select class="category-select" id="category-filter">
+                    <option value="all">Todas as Categorias</option>
+                    <option value="cinzeiros">Cinzeiros e Porta-objetos</option>
+                    <option value="acessorios">Acessórios</option>
+                    <option value="quadros">Quadros e Artes em Resina</option>
+                    <option value="customizacao">Customização de Roupas</option>
+                    <option value="bolsas">Bolsas Customizadas</option>
+                    <option value="camisetas">Camisetas</option>
+                    <option value="outro">Outros</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="products-section">
+        <div class="container">
+            <div class="products-loading" id="products-loading">
+                <p>Carregando produtos...</p>
+            </div>
+            
+            <div class="products-grid" id="products-grid" style="display: none;">
+                <!-- Produtos serão carregados dinamicamente aqui -->
+            </div>
+            
+            <div class="no-products" id="no-products" style="display: none;">
+                <h3>Nenhum produto encontrado</h3>
+                <p>Não há produtos cadastrados no momento ou nenhum produto corresponde aos filtros selecionados.</p>
+                <p><a href="admin.html">Acessar área administrativa</a> para adicionar produtos.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Não encontrou o que procura?</h2>
+                <p>Faça uma encomenda personalizada e tenha uma peça única criada especialmente para você</p>
+                <a href="encomendas.html" class="cta-button">Fazer Encomenda Personalizada</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>SUS.TEN.TA artes</h3>
+                    <p>Marca underground e sustentável</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="produtos.html">Produtos</a></li>
+                        <li><a href="sobre.html">Sobre</a></li>
+                        <li><a href="encomendas.html">Encomendas</a></li>
+                        <li><a href="contato.html">Contato</a></li>
+                        <li><a href="admin.html">Admin</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Redes Sociais</h4>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/sustenta.artes" target="_blank" class="social-link">
+                            📷 Instagram
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Contato</h4>
+                    <p>WhatsApp: (17) 98100-9230</p>
+                    <p>Email: laradeelaros@gmail.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Sustenta.Artes. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/5517981009230?text=Olá! Gostaria de saber mais sobre os produtos da Sustenta.Artes" 
+       class="whatsapp-float" target="_blank" title="Fale conosco no WhatsApp">
+        💬
+    </a>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+            <img id="lightbox-image" src="" alt="">
+            <button class="lightbox-nav prev" id="lightbox-prev" onclick="navigateLightbox(-1)">‹</button>
+            <button class="lightbox-nav next" id="lightbox-next" onclick="navigateLightbox(1)">›</button>
+        </div>
+    </div>
+
+    <script>
+        // Estado da aplicação
+        let products = [];
+        let filteredProducts = [];
+        let currentFilter = 'all';
+        let currentCategory = 'all';
+        let carouselIndices = {};
+        let currentLightboxImages = [];
+        let currentLightboxIndex = 0;
+
+        // Carregar produtos do localStorage
+        function loadProducts() {
+            const savedProducts = localStorage.getItem('sustainArtsProducts');
+            if (savedProducts) {
+                products = JSON.parse(savedProducts);
+                // Migrar produtos antigos que têm apenas uma imagem
+                products = products.map(product => {
+                    if (product.image && !product.images) {
+                        return {
+                            ...product,
+                            images: [product.image],
+                            image: undefined
+                        };
+                    }
+                    if (!product.images) {
+                        product.images = [];
+                    }
+                    return product;
+                });
+            } else {
+                // Produtos padrão com NOMES CORRETOS das imagens
+                products = [
+                    {
+                        id: 1,
+                        name: "Cinzeiro Folha de Cannabis",
+                        price: "R$ 35,00",
+                        category: "cinzeiros",
+                        type: "autorais",
+                        description: "Cinzeiro artesanal em resina com formato de folha de cannabis. Peça única e resistente.",
+                        images: ["images/cinzeiro-cannabis.jpg"]
+                    },
+                    {
+                        id: 2,
+                        name: "Cinzeiro Caveira Vermelho-Azul",
+                        price: "R$ 55,00",
+                        category: "cinzeiros",
+                        type: "autorais",
+                        description: "Cinzeiro em resina com design de caveira, perfeito também para incluir como acessório de decoração.",
+                        images: [
+                            "images/cinvermelho.PNG",
+                            "images/cinv.PNG"
+                        ]
+                    },
+                    {
+                        id: 3,
+                        name: "Porta-objetos Coração",
+                        price: "R$ 30,00",
+                        category: "cinzeiros",
+                        type: "autorais",
+                        description: "Porta-objetos em formato de coração, ideal para guardar pequenos itens.",
+                        images: ["images/cinzeiro-e-porta-objetos-coracao.jpg"]
+                    },
+                    {
+                        id: 4,
+                        name: "Chaveiro Folha Cannabis",
+                        price: "R$ 10,00",
+                        category: "acessorios",
+                        type: "autorais",
+                        description: "Chaveiro artesanal em resina com formato de folha de cannabis.",
+                        images: ["images/caveirinho.jpg"]
+                    },
+                    {
+                        id: 5,
+                        name: "Dois em um: Pingente e Brinco Folha Cannabis",
+                        price: "R$ 10,00",
+                        category: "acessorios",
+                        type: "autorais",
+                        description: "Par de brincos em resina com formato de folha de cannabis.",
+                        images: ["images/pingente-e-brinco.jpg"]
+                    },
+                    {
+                        id: 6,
+                        name: "Pilãozinho",
+                        price: "R$ 10,00",
+                        category: "acessorios",
+                        type: "autorais",
+                        description: "Feito em Resina",
+                        images: ["images/pilao.jpg"]
+                    },
+                    {
+                        id: 7,
+                        name: "Bandeja Bolar",
+                        price: "R$ 80,00",
+                        category: "quadros",
+                        type: "autorais",
+                        description: "Bandeja para bolar em resina.",
+                        images: [
+                            "images/bandeja-cannabis.jpg",
+                            "images/bandeja-tres.PNG",
+                            "images/bandeja-quatro.PNG"
+                        ]
+                    },
+                    {
+                        id: 8,
+                        name: "Customização de Calças",
+                        price: "A partir de R$ 80,00",
+                        category: "customizacao",
+                        type: "autorais",
+                        description: "Customização de calças jeans com grafites e desenhos únicos.",
+                        images: ["images/customizacao-calca.jpg"]
+                    },
+                    {
+                        id: 9,
+                        name: "Bolsa Customizada Underground",
+                        price: "R$ 80,00",
+                        category: "bolsas",
+                        type: "autorais",
+                        description: "Bolsa feita com papelão impermeável e retalhos de tecidos. Arte exclusiva e materiais sustentáveis.",
+                        images: [
+                            "images/bolsa-um.PNG",
+                            "images/bolsa-dois.PNG",
+                            "images/bolsa-tres.PNG",
+                            "images/bolsa-4.PNG",
+                            "images/bolsa-5.PNG",
+                            "images/bolsa-seis.PNG",
+                            "images/bolsa-ste.PNG"
+                        ]
+                    },
+                    {
+                        id: 10,
+                        name: "Camiseta Racionais MC's",
+                        price: "R$ 45,00",
+                        category: "camisetas",
+                        type: "revenda",
+                        description: "Camiseta oficial do grupo Racionais MC's, 100% algodão.",
+                        images: ["images/camiseta-racionais.jpg"]
+                    },
+                    {
+                        id: 11,
+                        name: "Camiseta Sabotage",
+                        price: "R$ 40,00",
+                        category: "camisetas",
+                        type: "revenda",
+                        description: "Camiseta em homenagem ao rapper Sabotage, estilo underground.",
+                        images: ["images/camiseta-sabotagem.jpg"]
+                    },
+                    {
+                        id: 12,
+                        name: "Bolsa Jamaica",
+                        price: "R$ 95,00",
+                        category: "bolsas",
+                        type: "autorais",
+                        description: "Bolsa feita com papelão impermeável e retalhos de tecidos em camurça",
+                        images: [
+                            "images/bolsa-jamaica.PNG",
+                            "images/bolsa-jamaica-2.PNG",
+                            "images/bolsa-jamaica-tres.PNG",
+                            "images/bolsa-jamaica-quatro.PNG",
+                            "images/bolsa-jamaica-cinco.PNG",
+                            "images/bolsa-jamaica-seis.PNG",
+                            "images/bolsa-jamaica-sete.PNG"
+                        ]
+                    },
+                    {
+                        id: 13,
+                        name: "Bolsa Jamaica 2",
+                        price: "R$ 65,00",
+                        category: "bolsas",
+                        type: "autorais",
+                        description: "Bolsa feita com papelão impermeável e retalhos de tecidos em cetim e argolas",
+                        images: [
+                            "images/bol-uma.PNG",
+                            "images/bol-dois.PNG",
+                            "images/bol-tres.PNG"
+                        ]
+                    },
+                    {
+                        id: 14,
+                        name: "Borderline",
+                        price: "R$ 180,00",
+                        category: "quadros",
+                        type: "autorais",
+                        description: "Tinta acrílica e tratado com Vermiz (Tamanho: 40x40)",
+                        images: [
+                            "images/frenteum.png",
+                            "images/frentedois.png",
+                            "images/frentetres.png"
+                        ]
+                    }
+                ];
+            }
+        }
+
+        // Obter label da categoria
+        function getCategoryLabel(category) {
+            const labels = {
+                'cinzeiros': 'Cinzeiros e Porta-objetos',
+                'acessorios': 'Acessórios',
+                'quadros': 'Quadros e Artes em Resina',
+                'customizacao': 'Customização de Roupas',
+                'bolsas': 'Bolsas Customizadas',
+                'camisetas': 'Camisetas',
+                'outro': 'Outros'
+            };
+            return labels[category] || category;
+        }
+
+        // Criar carrossel de imagens para produtos
+        function createProductCarousel(images, productId) {
+            if (!images || images.length === 0) {
+                return `<div class="product-placeholder">Sem imagem</div>`;
+            }
+
+            if (images.length === 1) {
+                return `
+                    <div class="product-single-image">
+                        <img src="${images[0]}" alt="Produto" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="product-placeholder" style="display: none;">Erro ao carregar</div>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="product-carousel">
+                    <div class="carousel-images" id="carousel-${productId}">
+                        ${images.map((img, index) => `<img src="${img}" alt="Produto ${index + 1}" onerror="this.style.opacity='0.3';">`).join('')}
+                    </div>
+                    <button class="carousel-nav prev" onclick="navigateCarousel(${productId}, -1)" type="button">‹</button>
+                    <button class="carousel-nav next" onclick="navigateCarousel(${productId}, 1)" type="button">›</button>
+                    <div class="carousel-counter">
+                        <span id="counter-${productId}">1</span>/${images.length}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Navegar no carrossel
+        function navigateCarousel(productId, direction) {
+            const product = products.find(p => p.id === productId);
+            if (!product || !product.images || product.images.length <= 1) return;
+
+            const carousel = document.getElementById(`carousel-${productId}`);
+            const counter = document.getElementById(`counter-${productId}`);
+            
+            if (!carousel || !counter) return;
+
+            // Inicializar índice se não existir
+            if (!(productId in carouselIndices)) {
+                carouselIndices[productId] = 0;
+            }
+
+            let currentIndex = carouselIndices[productId];
+            currentIndex += direction;
+
+            // Loop circular
+            if (currentIndex < 0) {
+                currentIndex = product.images.length - 1;
+            } else if (currentIndex >= product.images.length) {
+                currentIndex = 0;
+            }
+
+            // Atualizar índice
+            carouselIndices[productId] = currentIndex;
+
+            // Aplicar transformação
+            carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+            counter.textContent = currentIndex + 1;
+
+            // Prevenir propagação do evento
+            if (event) event.stopPropagation();
+        }
+
+        // Abrir lightbox
+        function openLightbox(images, startIndex = 0) {
+            if (typeof images === 'string') {
+                // Se é uma string, converter para array
+                images = [images];
+            }
+            
+            currentLightboxImages = images;
+            currentLightboxIndex = startIndex;
+            
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImage = document.getElementById('lightbox-image');
+            const prevBtn = document.getElementById('lightbox-prev');
+            const nextBtn = document.getElementById('lightbox-next');
+            
+            lightboxImage.src = images[startIndex];
+            lightbox.classList.add('active');
+            
+            // Mostrar/ocultar botões de navegação
+            if (images.length > 1) {
+                prevBtn.style.display = 'block';
+                nextBtn.style.display = 'block';
+            } else {
+                prevBtn.style.display = 'none';
+                nextBtn.style.display = 'none';
+            }
+        }
+
+        // Fechar lightbox
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+
+        // Navegar no lightbox
+        function navigateLightbox(direction) {
+            if (currentLightboxImages.length <= 1) return;
+            
+            currentLightboxIndex += direction;
+            
+            if (currentLightboxIndex < 0) {
+                currentLightboxIndex = currentLightboxImages.length - 1;
+            } else if (currentLightboxIndex >= currentLightboxImages.length) {
+                currentLightboxIndex = 0;
+            }
+            
+            document.getElementById('lightbox-image').src = currentLightboxImages[currentLightboxIndex];
+        }
+
+        // Renderizar produtos
+        function renderProducts() {
+            const productsGrid = document.getElementById('products-grid');
+            const productsLoading = document.getElementById('products-loading');
+            const noProducts = document.getElementById('no-products');
+            
+            // Mostrar loading
+            productsLoading.style.display = 'block';
+            productsGrid.style.display = 'none';
+            noProducts.style.display = 'none';
+            
+            setTimeout(() => {
+                productsGrid.innerHTML = '';
+                
+                if (filteredProducts.length === 0) {
+                    productsLoading.style.display = 'none';
+                    noProducts.style.display = 'block';
+                    return;
+                }
+                
+                filteredProducts.forEach(product => {
+                    const productCard = document.createElement('div');
+                    productCard.className = `product-card`;
+                    productCard.setAttribute('data-category', `${product.type} ${product.category}`);
+                    
+                    productCard.innerHTML = `
+                        <div class="product-image" onclick="openLightbox(${JSON.stringify(product.images || []).replace(/"/g, '&quot;')}, 0)">
+                            ${createProductCarousel(product.images, product.id)}
+                            <div class="product-badge ${product.type}">${product.type === 'autorais' ? 'Arte Autoral' : 'Revenda'}</div>
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name">${product.name}</h3>
+                            <p class="product-category">${getCategoryLabel(product.category)}</p>
+                            <p class="product-description">${product.description}</p>
+                            <span class="product-price">${product.price}</span>
+                            <button class="product-btn" onclick="solicitarOrcamento('${product.name}')">Solicitar Orçamento</button>
+                        </div>
+                    `;
+                    
+                    productsGrid.appendChild(productCard);
+                });
+                
+                // Inicializar índices do carrossel
+                filteredProducts.forEach(product => {
+                    if (product.images && product.images.length > 1) {
+                        carouselIndices[product.id] = 0;
+                    }
+                });
+                
+                productsLoading.style.display = 'none';
+                productsGrid.style.display = 'grid';
+            }, 500);
+        }
+
+        // Filtrar produtos
+        function filterProducts() {
+            filteredProducts = products.filter(product => {
+                const matchesType = currentFilter === 'all' || product.type === currentFilter;
+                const matchesCategory = currentCategory === 'all' || product.category === currentCategory;
+                return matchesType && matchesCategory;
+            });
+            renderProducts();
+        }
+
+        // Solicitar orçamento via WhatsApp
+        function solicitarOrcamento(productName) {
+            const message = `Olá! Gostaria de solicitar um orçamento para: ${productName}`;
+            const whatsappUrl = `https://wa.me/5517981009230?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Event listeners para filtros
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProducts();
+            filterProducts();
+            
+            // Filtros de tipo
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = btn.getAttribute('data-filter');
+                    filterProducts();
+                });
+            });
+            
+            // Filtro de categoria
+            const categoryFilter = document.getElementById('category-filter');
+            if (categoryFilter) {
+                categoryFilter.addEventListener('change', (e) => {
+                    currentCategory = e.target.value;
+                    filterProducts();
+                });
+            }
+            
+            // Fechar lightbox com ESC
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeLightbox();
+                }
+            });
+            
+            // Fechar lightbox clicando fora
+            const lightbox = document.getElementById('lightbox');
+            if (lightbox) {
+                lightbox.addEventListener('click', (e) => {
+                    if (e.target.id === 'lightbox') {
+                        closeLightbox();
+                    }
+                });
+            }
+        });
+
+        // Atualizar produtos quando localStorage mudar (quando admin adicionar novos produtos)
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'sustainArtsProducts') {
+                loadProducts();
+                filterProducts();
+            }
+        });
+
+        // Recarregar produtos quando a janela ganhar foco (volta do admin)
+        window.addEventListener('focus', function() {
+            const savedProducts = localStorage.getItem('sustainArtsProducts');
+            if (savedProducts) {
+                const newProducts = JSON.parse(savedProducts);
+                if (JSON.stringify(newProducts) !== JSON.stringify(products)) {
+                    loadProducts();
+                    filterProducts();
+                }
+            }
+        });
+
+        console.log('✅ Sistema de produtos carregado com sucesso!');
+    </script>
+
+    // No final do arquivo, antes do main.js
+<script>
+// Sistema de fallback - Firebase + LocalStorage
+async function loadProductsWithFallback() {
+  console.log('🔄 Carregando produtos (Firebase + Fallback)...');
+  
+  // Tentar Firebase primeiro
+  if (window.FirebaseProducts && window.FirebaseProducts.initialized) {
+    try {
+      const firebaseProducts = await window.FirebaseProducts.loadProducts();
+      if (firebaseProducts.length > 0) {
+        console.log(`✅ ${firebaseProducts.length} produtos do Firebase`);
+        return firebaseProducts;
+      }
+    } catch (error) {
+      console.error('Erro Firebase, usando fallback:', error);
+    }
+  }
+  
+  // Fallback para localStorage
+  const localProducts = JSON.parse(localStorage.getItem('sustainArtsProducts') || '[]');
+  console.log(`📁 ${localProducts.length} produtos do localStorage (fallback)`);
+  return localProducts;
+}
+
+// Substituir a função loadProducts original
+document.addEventListener('DOMContentLoaded', async function() {
+  // Carregar produtos
+  window.products = await loadProductsWithFallback();
+  
+  // Continuar com o código existente...
+  if (typeof window.filterProducts === 'function') {
+    window.filterProducts();
+  }
+});
+</script>
+
+    <!-- IMPORTANTE: NÃO incluir products.js - causa conflitos -->
+    <script src="main.js"></script>
+</body>
+</html>

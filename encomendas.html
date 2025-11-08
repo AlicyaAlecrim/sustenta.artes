@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encomendas - Sustenta.Artes</title>
+    <meta name="description" content="Faça sua encomenda personalizada na Sustenta.Artes. Criamos peças únicas sob medida para você.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/pixo-reto" rel="stylesheet">
+</head>
+<body>
+    <!-- Overlay para escurecer o fundo quando drawer está aberto -->
+    <div class="drawer-overlay"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <h1>SUS.TEN.TA</h1>
+                    <span class="logo-subtitle"></span>
+                </div>
+                <!-- Menu Desktop -->
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="produtos.html" class="nav-link">Produtos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="sobre.html" class="nav-link">Sobre</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="encomendas.html" class="nav-link active">Encomendas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="contato.html" class="nav-link">Contato</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="admin.html" class="nav-link">Admin</a>
+                    </li>
+                </ul>
+                <!-- Hamburger Menu -->
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Menu Drawer Lateral (APENAS MOBILE) -->
+    <nav class="nav-drawer">
+        <div class="drawer-header">
+            <button class="drawer-close">&times;</button>
+            <div class="drawer-logo">SUS.TEN.TA</div>
+            <div class="drawer-subtitle">Arte que transforma</div>
+        </div>
+        
+        <ul class="drawer-menu">
+            <li class="drawer-item">
+                <a href="index.html" class="drawer-link">
+                    <span class="drawer-icon">🏠</span>
+                    Home
+                </a>
+            </li>
+            <li class="drawer-item">
+                <a href="produtos.html" class="drawer-link">
+                    <span class="drawer-icon">🎨</span>
+                    Produtos
+                </a>
+            </li>
+            <li class="drawer-item">
+                <a href="sobre.html" class="drawer-link">
+                    <span class="drawer-icon">ℹ️</span>
+                    Sobre
+                </a>
+            </li>
+            <li class="drawer-item">
+                <a href="encomendas.html" class="drawer-link active">
+                    <span class="drawer-icon">📋</span>
+                    Encomendas
+                </a>
+            </li>
+            <li class="drawer-item">
+                <a href="contato.html" class="drawer-link">
+                    <span class="drawer-icon">📞</span>
+                    Contato
+                </a>
+            </li>
+            <li class="drawer-item">
+                <a href="admin.html" class="drawer-link">
+                    <span class="drawer-icon">⚙️</span>
+                    Admin
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-title">Encomendas Personalizadas</h1>
+            <p class="page-subtitle">Transforme sua ideia em uma obra de arte única e sustentável</p>
+        </div>
+    </section>
+
+    <!-- Como Funciona -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">Como Funciona</h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-icon">!</div>
+                    <h3>1. Conte sua Ideia</h3>
+                    <p>Preencha o formulário com todos os detalhes da sua encomenda. Quanto mais informações, melhor!</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon">💬</div>
+                    <h3>2. Conversamos</h3>
+                    <p>Entraremos em contato via WhatsApp para alinhar todos os detalhes e tirar suas dúvidas.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon">💰</div>
+                    <h3>3. Orçamento</h3>
+                    <p>Enviamos um orçamento detalhado com prazo de entrega e forma de pagamento.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon">🎨</div>
+                    <h3>4. Criação</h3>
+                    <p>Após a aprovação, iniciamos o processo criativo da sua peça única.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon">📦</div>
+                    <h3>5. Entrega</h3>
+                    <p>Sua encomenda fica pronta e você recebe uma peça exclusiva e sustentável!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formulário de Encomenda -->
+    <section class="order-form-section">
+        <div class="container">
+            <div class="form-container">
+                <div class="form-intro">
+                    <h2>Faça sua Encomenda</h2>
+                    <p>Preencha o formulário abaixo com o máximo de detalhes possível. Isso nos ajuda a criar exatamente o que você imagina!</p>
+                </div>
+                
+                <form class="order-form" id="order-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Nome Completo *</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">E-mail *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">WhatsApp *</label>
+                            <input type="tel" id="phone" name="phone" placeholder="(11) 99999-9999" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="city">Cidade</label>
+                            <input type="text" id="city" name="city" placeholder="São Paulo - SP">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="product-type">Tipo de Produto *</label>
+                        <select id="product-type" name="product-type" required>
+                            <option value="">Selecione o tipo de produto</option>
+                            <option value="cinzeiro">Cinzeiro/Porta-objetos</option>
+                            <option value="acessorio">Acessórios (Chaveiros, Brincos, etc.)</option>
+                            <option value="quadro">Quadros e Artes em Resina</option>
+                            <option value="customizacao-roupa">Customização de Roupas</option>
+                            <option value="bolsa">Bolsas Customizadas</option>
+                            <option value="outro">Outro (especificar na descrição)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="description">Descrição Detalhada da Encomenda *</label>
+                        <textarea id="description" name="description" rows="6" 
+                                placeholder="Descreva sua ideia com o máximo de detalhes possível: cores, tamanho, estilo, materiais preferidos, inspirações, etc." required></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="deadline">Prazo Desejado</label>
+                            <select id="deadline" name="deadline">
+                                <option value="">Não tenho pressa</option>
+                                <option value="1-semana">1 semana</option>
+                                <option value="2-semanas">2 semanas</option>
+                                <option value="1-mes">1 mês</option>
+                                <option value="2-meses">2 meses ou mais</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="budget">Orçamento Estimado</label>
+                            <select id="budget" name="budget">
+                                <option value="">Não sei estimar</option>
+                                <option value="ate-50">Até R$ 50</option>
+                                <option value="50-100">R$ 50 - R$ 100</option>
+                                <option value="100-200">R$ 100 - R$ 200</option>
+                                <option value="200-mais">R$ 200 ou mais</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="references">Referências/Inspirações</label>
+                        <textarea id="references" name="references" rows="3" 
+                                placeholder="Descreva ou cole links de imagens que inspiram sua ideia (Instagram, Pinterest, etc.)"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="additional-info">Informações Adicionais</label>
+                        <textarea id="additional-info" name="additional-info" rows="3" 
+                                placeholder="Alguma informação extra que considera importante?"></textarea>
+                    </div>
+                    
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="agree-terms" name="agree-terms" required>
+                            <span class="checkmark"></span>
+                            Concordo que as informações fornecidas sejam utilizadas para criação do orçamento e contato via WhatsApp *
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        <span class="btn-text">Enviar Encomenda</span>
+                        <span class="btn-loading" style="display: none;">Enviando...</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Informações Importantes -->
+    <section class="important-info">
+        <div class="container">
+            <h2 class="section-title">Informações Importantes</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>⏰ Prazos</h3>
+                    <p>Os prazos variam de acordo com a complexidade da peça. Encomendas simples: 1-2 semanas. Peças mais elaboradas: 3-4 semanas.</p>
+                </div>
+                <div class="info-card">
+                    <h3>💳 Pagamento</h3>
+                    <p>Aceitamos PIX, transferência bancária e cartão. Entrada de 50% para iniciar e restante na entrega.</p>
+                </div>
+                <div class="info-card">
+                    <h3>📦 Entrega</h3>
+                    <p>Entrega presencial na região ou envio pelos Correios (frete por conta do cliente).</p>
+                </div>
+                <div class="info-card">
+                    <h3>! Alterações</h3>
+                    <p>Pequenos ajustes são possíveis durante o processo. Mudanças grandes podem alterar prazo e valor.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>SUS.TEN.TA artes</h3>
+                    <p>Marca underground e sustentável</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="produtos.html">Produtos</a></li>
+                        <li><a href="sobre.html">Sobre</a></li>
+                        <li><a href="encomendas.html">Encomendas</a></li>
+                        <li><a href="contato.html">Contato</a></li>
+                        <li><a href="admin.html">Admin</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Redes Sociais</h4>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/sustenta.artes" target="_blank" class="social-link">
+                            📷 Instagram
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Contato</h4>
+                    <p>WhatsApp: (17) 98100-9230</p>
+                    <p>Email: laradeelaros@gmail.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Sustenta.Artes. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/5517981009230?text=Olá! Gostaria de fazer uma encomenda personalizada" 
+       class="whatsapp-float" target="_blank" title="Fale conosco no WhatsApp">
+        💬
+    </a>
+
+    <script src="main.js"></script>
+    <script src="forms.js"></script>
+</body>
+</html>

@@ -1,0 +1,303 @@
+/* ============================================
+   MENU DRAWER LATERAL - ADICIONAR NO FINAL DO responsive.css
+   ============================================ */
+
+/* Overlay para escurecer o fundo */
+.drawer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1500;
+    display: none;
+}
+
+.drawer-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Menu Drawer */
+.nav-drawer {
+    position: fixed;
+    top: 0;
+    right: -350px;
+    width: 350px;
+    height: 100vh;
+    background: linear-gradient(180deg, var(--color-primary) 0%, #1e5a1e 100%);
+    transition: right 0.4s ease;
+    z-index: 2000;
+    box-shadow: -5px 0 20px rgba(0,0,0,0.3);
+    overflow-y: auto;
+    display: none;
+}
+
+.nav-drawer.active {
+    right: 0;
+}
+
+/* Header do drawer */
+.drawer-header {
+    padding: 2rem 1.5rem 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    background: rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.drawer-logo {
+    color: var(--color-white);
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    font-family: 'Pixo Reto', sans-serif;
+}
+
+.drawer-subtitle {
+    color: rgba(255,255,255,0.8);
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+.drawer-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: var(--color-white);
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.drawer-close:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* Menu do drawer */
+.drawer-menu {
+    list-style: none;
+    padding: 1rem 0;
+    margin: 0;
+}
+
+.drawer-item {
+    margin: 0;
+}
+
+.drawer-link {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    color: var(--color-white);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+}
+
+.drawer-link:hover,
+.drawer-link.active {
+    background-color: rgba(255,255,255,0.15);
+    border-left-color: var(--color-light);
+    transform: translateX(-5px);
+}
+
+.drawer-icon {
+    margin-right: 1rem;
+    font-size: 1.2rem;
+    width: 20px;
+    text-align: center;
+}
+
+/* Impedir scroll quando drawer aberto */
+body.drawer-open {
+    overflow: hidden !important;
+    position: fixed !important;
+    width: 100% !important;
+}
+
+/* SUBSTITUIR a seção mobile existente (767px) por esta: */
+@media screen and (max-width: 767px) {
+    /* MOSTRAR DRAWER E OVERLAY NO MOBILE */
+    .drawer-overlay,
+    .nav-drawer {
+        display: block !important;
+    }
+    
+    /* ESCONDER MENU DESKTOP COMPLETAMENTE */
+    .nav-menu {
+        display: none !important;
+    }
+    
+    /* Hamburger visível e animação */
+    .hamburger {
+        display: flex !important;
+        z-index: 2001;
+    }
+    
+    .hamburger.active .bar:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+        background-color: var(--color-primary);
+    }
+    
+    .hamburger.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .hamburger.active .bar:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+        background-color: var(--color-primary);
+    }
+    
+    /* Resto das configurações mobile existentes... */
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: var(--spacing-lg) 0;
+        min-height: auto;
+    }
+    
+    .hero-content {
+        padding-right: 0;
+        margin-bottom: var(--spacing-xl);
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .hero-placeholder {
+        width: 250px;
+        height: 250px;
+        font-size: 1rem;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .container {
+        padding: 0 var(--spacing-sm);
+    }
+    
+    section {
+        padding: var(--spacing-xl) 0;
+    }
+    
+    .featured-products,
+    .why-choose,
+    .cta-section {
+        padding: var(--spacing-xl) 0;
+    }
+    
+    .products-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+    
+    .product-card {
+        max-width: 100%;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+    
+    .feature {
+        padding: var(--spacing-md);
+    }
+    
+    .cta-content h2 {
+        font-size: 1.8rem;
+    }
+    
+    .cta-content p {
+        font-size: 1rem;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+        text-align: center;
+    }
+    
+    .social-links {
+        justify-content: center;
+    }
+    
+    .cta-button,
+    .secondary-button {
+        padding: var(--spacing-md) var(--spacing-lg);
+        font-size: 0.9rem;
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .whatsapp-float {
+        width: 50px;
+        height: 50px;
+        bottom: 15px;
+        right: 15px;
+        font-size: 1.2rem;
+    }
+}
+
+/* Mobile pequeno */
+@media screen and (max-width: 480px) {
+    .nav-drawer {
+        width: 300px;
+        right: -300px;
+    }
+    
+    .drawer-header {
+        padding: 1.5rem 1rem 1rem;
+    }
+    
+    .drawer-logo {
+        font-size: 1.3rem;
+    }
+}
+
+/* Garantir que no desktop nunca apareça */
+@media screen and (min-width: 768px) {
+    .nav-menu {
+        display: flex !important;
+    }
+    
+    .hamburger {
+        display: none !important;
+    }
+    
+    .nav-drawer,
+    .drawer-overlay {
+        display: none !important;
+    }
+}

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato - Sustenta.Artes</title>
+    <meta name="description" content="Entre em contato com a Sustenta.Artes. Tire suas dúvidas e fale conosco via WhatsApp, email ou redes sociais.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/pixo-reto" rel="stylesheet">
+</head>
+<body>
+    <!-- Overlay para escurecer o fundo quando drawer está aberto -->
+    <div class="drawer-overlay"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <h1>SUS.TEN.TA</h1>
+                    <span class="logo-subtitle"></span>
+                </div>
+                <!-- Menu Desktop -->
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="produtos.html" class="nav-link">Produtos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="sobre.html" class="nav-link">Sobre</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="encomendas.html" class="nav-link">Encomendas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="contato.html" class="nav-link active">Contato</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="admin.html" class="nav-link">Admin</a>
+                    </li>
+                </ul>
+                <!-- Hamburger Menu -->
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Menu Drawer Lateral (APENAS MOBILE) -->
+    <nav class="nav-drawer">
+        <div class="drawer-header">
+            <button class="drawer-close">&times;</button>
+            <div class="drawer-logo">SUS.TEN.TA</div>
+            <div class="drawer-subtitle">Arte que transforma</div>
+        </div>
+        
+        <ul class="drawer-menu">
+            <li class="drawer-item">
+                <a href="index.html" class="drawer-link">
+                    <span class="drawer-icon">🏠</span>
+                    Home
+                </a>
+            </li>
+            <li class="drawer-item">
+                <a href="produtos.html" class="drawer-link">
+                    <span class="drawer-icon">🎨</span>
+                    Produtos
+                </a>
+            </li>
+            <li class="drawer-item">
+                <a href="sobre.html" class="drawer-link">
+                    <span class="drawer-icon">ℹ️</span>
+                    Sobre
+                </a>
+            </li>
+            <li class="drawer-item">
+                <a href="encomendas.html" class="drawer-link">
+                    <span class="drawer-icon">📋</span>
+                    Encomendas
+                </a>
+            </li>
+            <li class="drawer-item">
+                <a href="contato.html" class="drawer-link active">
+                    <span class="drawer-icon">📞</span>
+                    Contato
+                </a>
+            </li>
+            <li class="drawer-item">
+                <a href="admin.html" class="drawer-link">
+                    <span class="drawer-icon">⚙️</span>
+                    Admin
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-title">Fale Conosco</h1>
+            <p class="page-subtitle">Estamos aqui para tirar suas dúvidas e ajudar você a encontrar a peça perfeita</p>
+        </div>
+    </section>
+
+    <!-- Formas de Contato -->
+    <section class="contact-methods">
+        <div class="container">
+            <h2 class="section-title">Como Falar Conosco</h2>
+            <div class="contact-grid">
+                <div class="contact-card whatsapp-card">
+                    <div class="contact-icon">💬</div>
+                    <h3>WhatsApp</h3>
+                    <p>Nossa forma preferida de contato! Resposta rápida e atendimento personalizado.</p>
+                    <a href="https://wa.me/5517981009230?text=Olá! Gostaria de falar com a Sustenta.Artes" 
+                       class="contact-btn whatsapp-btn" target="_blank" style="text-align: center;">
+                        Chamar no WhatsApp
+                    </a>
+                    <span class="contact-info">(17) 98100-9230</span>
+                </div>
+                
+                <div class="contact-card email-card">
+                    <div class="contact-icon">📧</div>
+                    <h3>E-mail</h3>
+                    <p>Para dúvidas mais detalhadas ou envio de referências para encomendas.</p>
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=laradeelaros@gmail.com" class="contact-btn email-btn" target="_blank">
+                        Enviar E-mail
+                    </a>
+                    <span class="contact-info">laradeelaros@gmail.com</span>
+                </div>
+
+                <div class="contact-card instagram-card">
+                    <div class="contact-icon">📷</div>
+                    <h3>Instagram</h3>
+                    <p>Acompanhe nossos trabalhos, novidades e entre em contato via direct.</p>
+                    <a href="https://www.instagram.com/sustenta.artes" 
+                       class="contact-btn instagram-btn" target="_blank">
+                        Seguir no Instagram
+                    </a>
+                    <span class="contact-info">@sustenta.artes</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formulário de Contato -->
+    <section class="contact-form-section">
+        <div class="container">
+            <div class="form-container">
+                <div class="form-intro">
+                    <h2>Envie uma Mensagem</h2>
+                    <p>Preencha o formulário abaixo e entraremos em contato o mais breve possível!</p>
+                </div>
+                
+                <form class="contact-form" id="contact-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="contact-name">Nome *</label>
+                            <input type="text" id="contact-name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-email">E-mail *</label>
+                            <input type="email" id="contact-email" name="email" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="contact-phone">WhatsApp</label>
+                            <input type="tel" id="contact-phone" name="phone" placeholder="(11) 99999-9999">
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-subject">Assunto *</label>
+                            <select id="contact-subject" name="subject" required>
+                                <option value="">Selecione o assunto</option>
+                                <option value="duvida-produto">Dúvida sobre produto</option>
+                                <option value="encomenda">Interesse em encomenda</option>
+                                <option value="orcamento">Solicitação de orçamento</option>
+                                <option value="parcerias">Parcerias</option>
+                                <option value="sugestao">Sugestões</option>
+                                <option value="outro">Outro</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contact-message">Mensagem *</label>
+                        <textarea id="contact-message" name="message" rows="6" 
+                                placeholder="Escreva sua mensagem aqui..." required></textarea>
+                    </div>
+                    
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="contact-agree" name="agree" required>
+                            <span class="checkmark"></span>
+                            Concordo em receber contato da Sustenta.Artes via WhatsApp ou e-mail *
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        <span class="btn-text">Enviar Mensagem</span>
+                        <span class="btn-loading" style="display: none;">Enviando...</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section">
+        <div class="container">
+            <h2 class="section-title">Perguntas Frequentes</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Quanto tempo demora para fazer uma encomenda?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>O prazo varia de acordo com a complexidade da peça. Encomendas simples como acessórios levam de 1 a 2 semanas, enquanto customizações mais elaboradas podem levar de 3 a 4 semanas.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Quais formas de pagamento vocês aceitam?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Aceitamos PIX, transferência bancária e cartão de crédito/débito. Para encomendas, pedimos 50% de entrada para iniciar o trabalho e o restante na entrega.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Vocês fazem entrega?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Sim! Entregamos presencialmente em Barretos e enviamos pelos Correios para todo o estado de São Paulo. O frete é por conta do cliente.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Posso solicitar alterações na minha encomenda?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Pequenos ajustes são possíveis durante o processo de criação. Mudanças significativas podem alterar o prazo e valor do orçamento.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Os materiais são realmente sustentáveis?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Sim! Priorizamos materiais reciclados, reutilizados e de baixo impacto ambiental. Cada peça é criada com consciência ecológica.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Vocês têm loja física?</h3>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Atualmente trabalhamos apenas online e com atendimento personalizado. Entre em contato para agendar uma visita ao nosso ateliê!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Horários de Atendimento -->
+    <section class="business-hours">
+        <div class="container">
+            <h2 class="section-title">Horários de Atendimento</h2>
+            <div class="hours-grid">
+                <div class="hours-card">
+                    <h3>WhatsApp</h3>
+                    <div class="hours-info">
+                        <p><strong>Segunda a Sexta:</strong> 9h às 18h</p>
+                        <p><strong>Sábado:</strong> 9h às 14h</p>
+                        <p><strong>Domingo:</strong> Fechado</p>
+                    </div>
+                </div>
+                <div class="hours-card">
+                    <h3>E-mail</h3>
+                    <div class="hours-info">
+                        <p><strong>Resposta em até:</strong> 24 horas</p>
+                        <p><strong>Dias úteis:</strong> Resposta mais rápida</p>
+                        <p><strong>Finais de semana:</strong> Resposta na segunda</p>
+                    </div>
+                </div>
+                <div class="hours-card">
+                    <h3>Instagram</h3>
+                    <div class="hours-info">
+                        <p><strong>Posts:</strong> Diariamente</p>
+                        <p><strong>Direct:</strong> Segunda a Sábado</p>
+                        <p><strong>Stories:</strong> Em tempo real</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>SUS.TEN.TA artes</h3>
+                    <p>Marca underground e sustentável</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="produtos.html">Produtos</a></li>
+                        <li><a href="sobre.html">Sobre</a></li>
+                        <li><a href="encomendas.html">Encomendas</a></li>
+                        <li><a href="contato.html">Contato</a></li>
+                        <li><a href="admin.html">Admin</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Redes Sociais</h4>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/sustenta.artes" target="_blank" class="social-link">
+                            📷 Instagram
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Contato</h4>
+                    <p>WhatsApp: (17) 98100-9230</p>
+                    <p>Email: laradeelaros@gmail.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Sustenta.Artes. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/5517981009230?text=Olá! Gostaria de falar com a Sustenta.Artes" 
+       class="whatsapp-float" target="_blank" title="Fale conosco no WhatsApp">
+        💬
+    </a>
+
+    <script src="main.js"></script>
+    <script src="forms.js"></script>
+    
+</body>
+</html>
